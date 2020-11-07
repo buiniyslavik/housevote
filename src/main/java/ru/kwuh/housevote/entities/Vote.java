@@ -18,4 +18,19 @@ public class Vote {
     List<Question> questionList;
     List<User> onlineParticipants;
     List<OfflineVoter> offlineVoters;
+
+    boolean isCurrentlyUsed = false;
+
+    public void addQuestion(String question) {
+        questionList.add(new Question(question));
+    }
+
+    public void removeQuestion(int questionIndex) throws VoteIsInUseException {
+        if(!isCurrentlyUsed)
+        questionList.remove(questionIndex);
+        else throw new VoteIsInUseException();
+    }
+
+    private static class VoteIsInUseException extends Exception {
+    }
 }
