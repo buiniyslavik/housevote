@@ -3,6 +3,8 @@ package ru.kwuh.housevote.entities;
 import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
@@ -10,11 +12,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 // Описывает собрание собственников
+@Document
 @Data
 public class Vote {
     @Id
     final long voteId;
-    @NotNull
+    @NotNull @Indexed
     final long houseId; // дом, в котором проходит голосование
     @NotNull
     final LocalDateTime postingDate; // дата создания голосования
