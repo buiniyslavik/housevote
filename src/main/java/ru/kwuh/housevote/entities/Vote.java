@@ -21,8 +21,8 @@ public class Vote {
 
     boolean isCurrentlyUsed = false;
 
-    public void addQuestion(String question) {
-        questionList.add(new Question(question));
+    public void addQuestion(String question, boolean needsTwoThirds) {
+        questionList.add(new Question(question, needsTwoThirds));
     }
 
     public void removeQuestion(int questionIndex) throws VoteIsInUseException {
