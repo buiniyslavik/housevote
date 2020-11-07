@@ -10,6 +10,7 @@ import java.util.List;
 public class OfflineVoter implements Voter {
     @NotNull
     String fullName;
+    @NotNull
     String passportNumber;
     List<Response> responses;
 

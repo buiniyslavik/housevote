@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,7 +14,9 @@ import java.util.List;
 public class Vote {
     @Id
     final long voteId;
+    @NotNull
     final long houseId; // дом, в котором проходит голосование
+    @NotNull
     final LocalDateTime postingDate; // дата создания голосования
     final LocalDateTime voteStartDate = postingDate.plusDays(7);
     final LocalDateTime voteEndDate = voteStartDate.plusHours(24);
@@ -32,6 +35,7 @@ public class Vote {
         questionList.remove(questionIndex);
         else throw new VoteIsInUseException(questionIndex);
     }
+
     @RequiredArgsConstructor
     private static class VoteIsInUseException extends Exception {
         private final int questionIndex;

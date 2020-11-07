@@ -4,11 +4,13 @@ import com.google.common.hash.HashCode;
 import com.google.common.hash.Hashing;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Data
 public class OnlineVoter implements Voter {
+    @NotNull
     final long userId;
     List<Response> responses;
     HashCode responseHash = null;
