@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 @Data
 public class User {
     @Id
-    long userId;
+    final long userId;
     @NotNull
     String firstName;
     @NotNull

@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class Question {
-    String questionText;
+    final String questionText;
     enum Answers { YES, NO, ABSTAINED }
 }

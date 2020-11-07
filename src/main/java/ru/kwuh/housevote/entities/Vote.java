@@ -10,11 +10,11 @@ import java.util.List;
 @Data
 public class Vote {
     @Id
-    long voteId;
-    long houseId; // дом, в котором проходит голосование
-    LocalDateTime postingDate; // дата создания голосования
-    LocalDateTime voteStartDate = postingDate.plusDays(7);
-    LocalDateTime voteEndDate = voteStartDate.plusHours(24);
+    final long voteId;
+    final long houseId; // дом, в котором проходит голосование
+    final LocalDateTime postingDate; // дата создания голосования
+    final LocalDateTime voteStartDate = postingDate.plusDays(7);
+    final LocalDateTime voteEndDate = voteStartDate.plusHours(24);
     List<Question> questionList;
     List<User> onlineParticipants;
     List<OfflineVoter> offlineVoters;

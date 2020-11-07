@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 public class OnlineVoter implements Voter {
-    long userId;
+    final long userId;
     List<Response> responses;
     HashCode responseHash = null;
     @Override
