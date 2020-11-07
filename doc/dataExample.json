@@ -1,0 +1,99 @@
+// (c) Осин Святослав @ KWUH
+// Описание формата данных о проведённом собрании
+{
+	"blockId": 123132,
+	
+	"blockBody": {
+		"previousBlockBodyHash": "gfjhngfjnfgmnlgfmklnmklfglmfgnk", // bodyHash прошлого блока (предотвращение изменений)
+		
+		"metadata": {
+			"houseId": 111111,
+			"postingTimestamp": "1609502400", // unixTime("2021/01/01, 12:00")
+			"voteStartTimestamp": "1610064000", // unixTime("2021/01/08, 00:00")
+			"voteEndTimestamp": "1610150399", // unixTime("2021/01/08, 23:59:59")
+			"totalPropertyOwners": 3,
+			"totalOnlineParticipants": 2,
+			"totalOfflineParticipants": 1
+		},
+		"metadataHash": "rwegerogoermboemrboisdmof", // sha512(metadata)
+		
+		"questions": [
+			{
+				"questionId": 0,
+				"questionText": "Поменять почтовые ящики?",
+				"needsTwoThirds": 0
+			},
+			{
+				"questionId": 1,
+				"questionText": "Внести изменения в Устав?",
+				"needsTwoThirds": 1
+			}
+		],
+		"questionHash": "adfgasdgfadsgadgfadsgagsd", // sha512(questions)
+		
+		"participants": {
+			"online": [
+				{
+					"userId": 999,
+					"answers": [
+						{
+							"questionId": 0,
+							"answer": 0 // 0 - за, 1 - против, 2 - воздержался
+						},
+						{
+							"questionId": 1,
+							"answer": 1
+						}
+					],
+					"voteCastTimestamp": "1610124828", // unixTime("01/08/2021, 16:53")
+					"answerHash": "qwdqwdosfnosdvnodvosndvoomdsa", // sha512(userId + questionHash + answers)
+					"answerSignature": "qwdnqiwdncoqwncoiqnwcoqnwcowqoi" // rsaSign(userPrivateKey, answerHash)
+				},
+				{
+					"userId": 1000,
+					"answers": [
+						{
+							"questionId": 0,
+							"answer": 2
+						},
+						{
+							"questionId": 1,
+							"answer": 1
+						}
+					],
+					"voteCastTimestamp": "1610134825", // unixTime("01/08/2021, 19:40")
+					"answerHash": "qwdqwdosfnosdvnodvosndvoomdsa",
+					"answerSignature": "qwdnqiwdncoqwncoiqnwcoqnwcowqoi"
+				}
+			],
+			"onlineParticipantsHash": "qegfqegasdggdsvsvshfdsfdh", // sha512(online)
+			
+			"offline": {
+				"scannedProtocol": "data:b64:qwerty...asdfg", // подписанный ЭЦП председателя собрания файл со сканом протокола в base64 или ссылка на него
+				"scannedProtocolHash": "scfafgadgdfhsfjdgjh", // sha512(scannedProtocol)
+				"protocolData": [
+					{
+						"name": "Иванов Иван Иванович",
+						"passportNumber": "6110222555",
+						"answers": [
+							{
+								"questionId": 0,
+								"answer": 0
+							},
+							{
+								"questionId": 1,
+								"answer": 0
+							}
+						]	
+					}
+				]
+			},
+			"offlineParticipantHash": "dsovndsovnosmbmpfkdskpaf" // sha512(offline)
+		},
+		"participantsHash": "adsfbvdbvsdbisnobvnebgweboinw" // sha512(participants)
+	},
+	
+	"bodyHash": "fasfadgnparnvbpearnireanusiebpsermbopamfodcqpasfadg", // sha512(metadataHash + questionHash + participantsHash)
+	"sig": "mfkpjpjrhjerojoejg" // rsaSign(systemPrivateKey, bodyHash)
+	
+}
