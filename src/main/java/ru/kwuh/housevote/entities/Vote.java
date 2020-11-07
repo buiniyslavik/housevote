@@ -1,6 +1,8 @@
 package ru.kwuh.housevote.entities;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.Id;
 import java.time.LocalDateTime;
@@ -28,9 +30,11 @@ public class Vote {
     public void removeQuestion(int questionIndex) throws VoteIsInUseException {
         if(!isCurrentlyUsed)
         questionList.remove(questionIndex);
-        else throw new VoteIsInUseException();
+        else throw new VoteIsInUseException(questionIndex);
     }
-
+    @RequiredArgsConstructor
     private static class VoteIsInUseException extends Exception {
+        private final int questionIndex;
+        @Getter private final String message = String.format("Attempt to delete question %d that is being voted on", questionIndex);
     }
 }
