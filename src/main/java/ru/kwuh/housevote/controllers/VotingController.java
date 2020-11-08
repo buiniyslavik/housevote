@@ -9,6 +9,7 @@ import ru.kwuh.housevote.entities.Vote;
 import ru.kwuh.housevote.repository.VoteRepository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 @Slf4j
 @RestController
@@ -19,16 +20,28 @@ public class VotingController {
     @Autowired
     VoteRepository voteRepository;
 
-    @GetMapping("/all")
-    public Iterable<Vote> showAllVoting() {
-        PageRequest page = PageRequest.of(0, 25, Sort.by("postingDate").descending());
+    @GetMapping(value = {"/all", "/all/{page}"})
+    public Iterable<Vote> showAllVoting(@PathVariable(name = "page", required = false) Integer pageNumber) {
+        PageRequest page = PageRequest.of(
+                Objects.requireNonNullElse(
+                        pageNumber, 0),
+                25,
+                Sort.by("postingDate").descending());
         return voteRepository.findAll(page).getContent();
     }
 
-    @GetMapping("/current")
-    public Iterable<Vote> showCurrentVoting() {
-        PageRequest page = PageRequest.of(0, 25, Sort.by("postingDate").descending());
-        return voteRepository.findAll(page).getContent().stream().filter(Vote::isCurrentlyUsed).collect(Collectors.toList());
+    @GetMapping(value = {"/current", "/current/{page}"})
+    public Iterable<Vote> showCurrentVoting(@PathVariable(name = "page", required = false) Integer pageNumber) {
+        PageRequest page = PageRequest.of(
+                Objects.requireNonNullElse(
+                        pageNumber, 0),
+                25,
+                Sort.by("postingDate").descending());
+        return voteRepository.findAll(page)
+                .getContent()
+                .stream()
+                .filter(Vote::isCurrentlyUsed)
+                .collect(Collectors.toList());
     }
 
     @PostMapping(value = "/add",  consumes = "application/json")
