@@ -2,7 +2,6 @@ header{
     color: #F5F5F5;
     background-color: #80c7c7;
     text-align: center;
-    line-height: 75px;
     height: 10vh;
 }
 
@@ -10,13 +9,68 @@ header{
     font-size: 30pt;
     font-family: 'Open Sans Condensed', sans-serif;
     line-height: normal;
-    display: inline-block;
+    display: inline;
     vertical-align: middle;
+}
+
+.right_side_buttons{
+    position: absolute;
+    top: 2.5vh;
+    width: 30%;
+    right: 10px;
+    text-align: right;
+}
+
+.right_side_buttons button{
+    background-color: #80c7c7;
+    border: none;
+    width: 45%;
+    border-radius: 15px;
+    height: 5vh;
+    color : white;
+    font: 15pt monospace;
+    border: 2px solid white
+    
+}
+button:active {
+    outline: none;
+    border: none;
+}
+    
+button:focus {outline:0;}
+
+.right_side_buttons button:hover{
+    background-color: white;
+    color: #80c7c7;
+    transition: 0.3s;
 }
 
 body{
     margin: 0px;
     padding: 0px;
+}
+
+body::-webkit-scrollbar{
+    display: none;
+}
+::-webkit-scrollbar {
+    width: 8px;
+}
+  
+  /* Track */
+::-webkit-scrollbar-track {
+    background: #F5F5F5; 
+}
+   
+  /* Handle */
+::-webkit-scrollbar-thumb {
+    background: #80c7c7; 
+    border-radius: 4px;
+}
+  
+  /* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #699e9e;
 }
 
 footer{
@@ -121,19 +175,19 @@ p{
     padding: 5px;
 }
 .send_message{
-    width: 60px;
-    height: 60px;
     background-image: url(../icons/send.png);
     background-repeat: no-repeat;
-    background-size: 30px;
-    border-radius: 30px;
-    background-position-x: 13px;
-    background-position-y: 13px;
-    background-color: #80c7c7;
     border: none;
-    right: 0px;
-    margin-left: 20px;
     position: absolute;
+    width:30px;
+    height: 30px;
+    margin-left: 30px;
+    background-size: 30px;
+    border-radius: 15px;
+}
+.send_message:focus{
+    border: none;
+    border-radius: 15px;
 }
 .input_message{
     margin:  0px 30px;
@@ -142,12 +196,18 @@ p{
 }
 
 .input_text{
-    width: 80%;
     height: 5vh;
     float: left;
     border-radius: 4px;
     border: 1px solid  #80c7c7;
+    font: 18pt monospace;
+    resize: none;
+    color: rgb(65, 65, 65);
 }
+textarea{
+    width: 80%;
+}
+
 .mes_scroll_container{
     height: 70vh;
     overflow: auto;
