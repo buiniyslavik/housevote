@@ -57,18 +57,17 @@ body::-webkit-scrollbar{
     width: 8px;
 }
   
-  /* Track */
+
 ::-webkit-scrollbar-track {
     background: #F5F5F5; 
 }
    
-  /* Handle */
+
 ::-webkit-scrollbar-thumb {
     background: #80c7c7; 
     border-radius: 4px;
 }
-  
-  /* Handle on hover */
+
 ::-webkit-scrollbar-thumb:hover {
     background: #699e9e;
 }
@@ -96,6 +95,15 @@ footer{
 .footer_text{
     margin: 0px;
     padding: 5px;
+}
+.frog{
+    height: 50px;
+    width: 100%;
+    position: relative;
+    background-position: center;
+    background-image: url(../icons/frog.gif);
+    background-repeat: no-repeat;
+    background-size: 50px;
 }
 .chat{
     background-color: white;
