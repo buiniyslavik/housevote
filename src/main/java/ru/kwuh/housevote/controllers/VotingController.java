@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
+import ru.kwuh.housevote.entities.Question;
 import ru.kwuh.housevote.entities.Vote;
 import ru.kwuh.housevote.repository.VoteRepository;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -47,5 +49,14 @@ public class VotingController {
     @PostMapping(value = "/add",  consumes = "application/json")
     public Vote addNewVoting(@RequestBody Vote vote) {
         return voteRepository.save(vote);
+    }
+
+    // -------------------------------------------------
+
+    @GetMapping("/{voteId}")
+    public Iterable<Question> showVoteQuestions(@PathVariable(name="voteId") BigInteger voteId) {
+        if(voteRepository.findById(voteId).isPresent())
+        return voteRepository.findById(voteId).get().getQuestionList();
+        else return null;
     }
 }
