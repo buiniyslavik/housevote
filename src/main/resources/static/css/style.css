@@ -123,7 +123,7 @@ p{
 .send_message{
     width: 60px;
     height: 60px;
-    background-image: url(/frontend/icons/send_dick.png);
+    background-image: url(../icons/send.png);
     background-repeat: no-repeat;
     background-size: 30px;
     border-radius: 30px;
