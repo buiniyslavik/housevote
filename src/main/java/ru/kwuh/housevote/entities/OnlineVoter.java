@@ -5,13 +5,14 @@ import com.google.common.hash.Hashing;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Data
 public class OnlineVoter implements Voter {
     @NotNull
-    final long userId;
+    BigInteger userId;
     List<Response> responses;
     HashCode responseHash = null;
     @Override

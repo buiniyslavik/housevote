@@ -32,7 +32,7 @@ public class Vote {
     LocalDateTime voteEndDate;
     List<Question> questionList;
  //   String question;
-    List<User> onlineParticipants;
+    List<OnlineVoter> onlineParticipants;
     List<OfflineVoter> offlineVoters;
 
     private Vote() {
