@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.Generated;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -17,11 +18,12 @@ import java.util.List;
 // Описывает собрание собственников
 @Document
 @Data
+
 public class Vote {
     @Id //@GeneratedValue(strategy = GenerationType.AUTO)
     Long voteId;
     @NotNull @Indexed
-    final long houseId; // дом, в котором проходит голосование
+    final Long houseId; // дом, в котором проходит голосование
     @NotNull
     final LocalDateTime postingDate; // дата создания голосования
     final LocalDateTime voteStartDate;
@@ -32,11 +34,20 @@ public class Vote {
 
     boolean isCurrentlyUsed = false;
 
-    public Vote(long HouseId, LocalDateTime PostingDate) {
-        houseId = HouseId;
-        postingDate = PostingDate;
-        voteStartDate = postingDate.plusDays(7);
+    public Vote(Long houseId) {
+        this.houseId = houseId;
+        postingDate = LocalDateTime.now();
+        voteStartDate = postingDate.plusDays(7).withHour(0).withMinute(0).withSecond(0).withNano(0);
         voteEndDate = voteStartDate.plusHours(24);
+    }
+    @PersistenceConstructor
+    public Vote(Long houseId, LocalDateTime postingDate, LocalDateTime voteStartDate,
+                LocalDateTime voteEndDate, boolean isCurrentlyUsed) {
+        this.houseId = houseId;
+        this.postingDate = postingDate;
+        this.voteStartDate = voteStartDate;
+        this.voteEndDate = voteEndDate;
+        this.isCurrentlyUsed = isCurrentlyUsed;
     }
     public void addQuestion(String question, boolean needsTwoThirds) {
         questionList.add(new Question(question, needsTwoThirds));
