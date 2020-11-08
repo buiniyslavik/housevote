@@ -16,6 +16,17 @@
 		/delete
 			DELETE - удалить недвижимость
 /voting - данные о голосованиях
+    /add
+        POST - добавить голосование:
+                        {
+                            "houseId": 114,
+                            "questionList": [
+                                {
+                                    "questionText": "Вопрос",
+                                    "needsTwoThirds": false
+                                }
+                            ]
+                        }
 	/all
 		GET - список всех доступных голосований
 	/current
@@ -27,4 +38,4 @@
 	/{vote-id}/
 		/questions
 			GET - список вопросов на повестке в данный момент
-			POST - отправить ответы
+			POST - отправить ответы:
