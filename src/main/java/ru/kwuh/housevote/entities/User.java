@@ -1,6 +1,7 @@
 package ru.kwuh.housevote.entities;
 
 import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
@@ -20,5 +21,6 @@ public class User {
     String lastName;
     String paternal;
     boolean isConfirmed = true; // наличие подтверждённой учётки на госуслугах
+    @DBRef
     List<BigInteger> ownedProperty;
 }
