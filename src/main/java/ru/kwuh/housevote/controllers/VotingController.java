@@ -9,6 +9,7 @@ import ru.kwuh.housevote.entities.Question;
 import ru.kwuh.housevote.entities.Vote;
 import ru.kwuh.housevote.repository.VoteRepository;
 
+import javax.validation.Valid;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Objects;
@@ -48,7 +49,7 @@ public class VotingController {
     }
 
     @PostMapping(value = "/add", consumes = "application/json")
-    public Vote addNewVoting(@RequestBody Vote vote) {
+    public Vote addNewVoting(@RequestBody @Valid Vote vote) {
         return voteRepository.save(vote);
     }
 

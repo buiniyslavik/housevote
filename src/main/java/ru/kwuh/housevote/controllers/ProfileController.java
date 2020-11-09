@@ -8,6 +8,7 @@ import ru.kwuh.housevote.entities.User;
 import ru.kwuh.housevote.entities.Vote;
 import ru.kwuh.housevote.repository.ProfileRepository;
 
+import javax.validation.Valid;
 import java.util.Objects;
 
 @RestController
@@ -17,7 +18,7 @@ public class ProfileController {
     ProfileRepository profileRepository;
 
     @PostMapping(path = "/create", consumes = "application/json")
-    public User createNewProfile(@RequestBody User profile) {
+    public User createNewProfile(@RequestBody @Valid User profile) {
         return profileRepository.save(profile);
     }
 
