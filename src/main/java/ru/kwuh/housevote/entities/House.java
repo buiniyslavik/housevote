@@ -7,7 +7,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @Document
@@ -16,6 +18,13 @@ public class House {
     BigInteger id;
     @NotNull
     String address;
-    @DBRef
+    @DBRef(lazy = true)
     List<User> registeredUsers;
+
+    public List<User> getRegisteredUsers() {
+        if(registeredUsers == null) {
+            registeredUsers = new ArrayList<>();
+        }
+        return registeredUsers;
+    }
 }
