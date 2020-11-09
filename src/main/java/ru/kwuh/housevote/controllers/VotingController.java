@@ -13,10 +13,11 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
 @Slf4j
 @RestController
 //@CrossOrigin("*")
-@RequestMapping(path="/voting", produces = "application/json")
+@RequestMapping(path = "/voting", produces = "application/json")
 public class VotingController {
 
     @Autowired
@@ -46,7 +47,7 @@ public class VotingController {
                 .collect(Collectors.toList());
     }
 
-    @PostMapping(value = "/add",  consumes = "application/json")
+    @PostMapping(value = "/add", consumes = "application/json")
     public Vote addNewVoting(@RequestBody Vote vote) {
         return voteRepository.save(vote);
     }
@@ -54,9 +55,9 @@ public class VotingController {
     // -------------------------------------------------
 
     @GetMapping("/{voteId}")
-    public Iterable<Question> showVoteQuestions(@PathVariable(name="voteId") BigInteger voteId) {
-        if(voteRepository.findById(voteId).isPresent())
-        return voteRepository.findById(voteId).get().getQuestionList();
+    public Iterable<Question> showVoteQuestions(@PathVariable(name = "voteId") BigInteger voteId) {
+        if (voteRepository.findById(voteId).isPresent())
+            return voteRepository.findById(voteId).get().getQuestionList();
         else return null;
     }
 }

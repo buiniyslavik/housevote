@@ -24,14 +24,15 @@ public class Vote {
     @Id // @GeneratedValue(strategy = GenerationType.SEQUENCE)
     BigInteger id;
     //BigInteger voteId;
-    @NotNull @Indexed
+    @NotNull
+    @Indexed
     BigInteger houseId; // дом, в котором проходит голосование
     @NotNull
     LocalDateTime postingDate; // дата создания голосования
     LocalDateTime voteStartDate;
     LocalDateTime voteEndDate;
     List<Question> questionList;
- //   String question;
+    //   String question;
     List<OnlineVoter> onlineParticipants;
     List<OfflineVoter> offlineVoters;
 
@@ -41,6 +42,7 @@ public class Vote {
         voteEndDate = voteStartDate.plusHours(24);
         //voteId = id;
     }
+
     boolean isCurrentlyUsed = false;
 /*
     public Vote(Long houseId) {
@@ -68,19 +70,22 @@ public class Vote {
         this.isCurrentlyUsed = isCurrentlyUsed;
         this.questionList = questionList;
     }
+
     public void addQuestion(String question, boolean needsTwoThirds) {
         questionList.add(new Question(question, needsTwoThirds));
     }
 
     public void removeQuestion(int questionIndex) throws VoteIsInUseException {
-        if(!isCurrentlyUsed)
-        questionList.remove(questionIndex);
+        if (!isCurrentlyUsed)
+            questionList.remove(questionIndex);
         else throw new VoteIsInUseException(questionIndex);
     }
 
     private static class VoteIsInUseException extends Exception {
         private final int questionIndex;
-        @Getter private final String message;
+        @Getter
+        private final String message;
+
         public VoteIsInUseException(int QuestionIndex) {
             questionIndex = QuestionIndex;
             message = String.format("Attempt to delete question %d that is being voted on", questionIndex);
