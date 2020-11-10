@@ -5,8 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -19,6 +21,13 @@ import java.util.Objects;
 public class User {
     @Id
     BigInteger id;
+
+    @Email
+    String emailAddress;
+    String passwordHash;
+
+    SimpleGrantedAuthority accessLevel;
+
     @NotNull
     String firstName;
     @NotNull
