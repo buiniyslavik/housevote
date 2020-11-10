@@ -2,6 +2,7 @@ package ru.kwuh.housevote.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -33,5 +34,12 @@ public class User {
             ownedProperty = new ArrayList<>();
         }
         return ownedProperty;
+    }
+
+    public void addProperty(House house) throws House.DuplicateUserException {
+        if(!ownedProperty.contains(house.getId())) {
+            ownedProperty.add(house.getId());
+        }
+        else throw new House.DuplicateUserException();
     }
 }
