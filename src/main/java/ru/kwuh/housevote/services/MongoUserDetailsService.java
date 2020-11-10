@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import ru.kwuh.housevote.entities.Profile;
 import ru.kwuh.housevote.repository.ProfileRepository;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -22,7 +22,7 @@ public class MongoUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         Profile profile = userRepository.findUserByEmailAddress(s);
         if(profile ==null) throw new UsernameNotFoundException("Profile with that email does not exist");
-        List<SimpleGrantedAuthority> authorities = Arrays.asList(
+        List<SimpleGrantedAuthority> authorities = Collections.singletonList(
                 new SimpleGrantedAuthority("user")
         );
         return new User(
