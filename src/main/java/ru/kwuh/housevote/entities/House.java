@@ -24,6 +24,7 @@ public class House {
     Integer totalOwners = 0;
 
     public void addRegisteredUser(User user) throws DuplicateUserException {
+        getRegisteredUsers(); //make sure its not null
         if(!getRegisteredUsers().contains(user)) {
             getRegisteredUsers().add(user);
             totalOwners++;

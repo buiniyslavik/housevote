@@ -80,6 +80,11 @@ public class Vote {
         else throw new VoteIsInUseException(questionIndex);
     }
 
+    public void finalizeAnswers() {
+        onlineParticipants.forEach(onlineParticipant ->
+                onlineParticipant.hashResponses());
+    }
+
     private static class VoteIsInUseException extends Exception {
         private final int questionIndex;
         @Getter

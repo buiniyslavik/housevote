@@ -37,7 +37,7 @@ public class User {
     }
 
     public void addProperty(House house) throws House.DuplicateUserException {
-        if(!ownedProperty.contains(house.getId())) {
+        if(!getOwnedProperty().contains(house.getId())) {
             ownedProperty.add(house.getId());
         }
         else throw new House.DuplicateUserException();
