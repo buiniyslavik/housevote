@@ -2,8 +2,6 @@ package ru.kwuh.housevote.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -13,12 +11,11 @@ import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 // Описание пользователя системы
 @Data
 @Document
-public class User {
+public class Profile {
     @Id
     BigInteger id;
 
@@ -45,10 +42,10 @@ public class User {
         return ownedProperty;
     }
 
-    public void addProperty(House house) throws House.DuplicateUserException {
+    public void addProperty(House house) throws House.DuplicateProfileException {
         if(!getOwnedProperty().contains(house.getId())) {
             ownedProperty.add(house.getId());
         }
-        else throw new House.DuplicateUserException();
+        else throw new House.DuplicateProfileException();
     }
 }

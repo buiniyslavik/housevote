@@ -58,9 +58,7 @@ public class VotingController {
         List<OnlineVoter> registeredHouseVoters = new ArrayList<>();
         if(houseRepository.findById(vote.getHouseId()).isPresent()) {
             House houseOnVote = houseRepository.findById(vote.getHouseId()).get();
-            houseOnVote.getRegisteredUsers().forEach(user -> {
-                registeredHouseVoters.add(new OnlineVoter(user.getId()));
-            });
+            houseOnVote.getRegisteredProfiles().forEach(user -> registeredHouseVoters.add(new OnlineVoter(user.getId())));
             vote.setOnlineParticipants(registeredHouseVoters);
             return voteRepository.save(vote);
         }
@@ -112,7 +110,7 @@ public class VotingController {
                     currentVoter = vote.getOnlineParticipants()
                     .stream()
                     .filter(onlineVoter ->
-                            onlineVoter.getUserId().equals(response.getUserId()))
+                            onlineVoter.getProfileId().equals(response.getProfileId()))
                     .findFirst().get(); //TODO make it less horrible
         }
         catch(NoSuchElementException nsex) {

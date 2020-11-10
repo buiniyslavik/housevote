@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 public class OnlineVoter implements Voter {
     @NotNull
-    final BigInteger userId;
+    final BigInteger profileId;
     List<Response> responses;
     HashCode responseHash = null;
 

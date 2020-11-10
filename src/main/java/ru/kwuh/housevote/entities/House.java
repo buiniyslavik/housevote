@@ -10,7 +10,6 @@ import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Data
 @Document
@@ -20,27 +19,27 @@ public class House {
     @NotNull
     String address;
     @DBRef(lazy = true)
-    List<User> registeredUsers;
+    List<Profile> registeredProfiles;
     Integer totalOwners = 0;
 
-    public void addRegisteredUser(User user) throws DuplicateUserException {
-        getRegisteredUsers(); //make sure its not null
-        if(!getRegisteredUsers().contains(user)) {
-            getRegisteredUsers().add(user);
+    public void addRegisteredProfile(Profile profile) throws DuplicateProfileException {
+        getRegisteredProfiles(); //make sure its not null
+        if(!getRegisteredProfiles().contains(profile)) {
+            getRegisteredProfiles().add(profile);
             totalOwners++;
         }
-        else throw new DuplicateUserException();
+        else throw new DuplicateProfileException();
     }
 
-    public List<User> getRegisteredUsers() {
-        if(registeredUsers == null) {
-            registeredUsers = new ArrayList<>();
+    public List<Profile> getRegisteredProfiles() {
+        if(registeredProfiles == null) {
+            registeredProfiles = new ArrayList<>();
         }
-        return registeredUsers;
+        return registeredProfiles;
     }
 
     @NoArgsConstructor
-    public static class DuplicateUserException extends Exception {
+    public static class DuplicateProfileException extends Exception {
 
     }
 }

@@ -6,15 +6,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import ru.kwuh.housevote.entities.House;
-import ru.kwuh.housevote.entities.User;
-import ru.kwuh.housevote.entities.Vote;
+import ru.kwuh.housevote.entities.Profile;
 import ru.kwuh.housevote.repository.HouseRepository;
 import ru.kwuh.housevote.repository.ProfileRepository;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
-import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -41,17 +39,17 @@ public class HouseController {
     }
 
     @PostMapping(value = "/{houseId}/adduser")
-    public House addUserToHouse(
+    public House addProfileToHouse(
             @PathVariable(name = "houseId") BigInteger houseId,
             @RequestBody @NotNull BigInteger userId
-    ) throws House.DuplicateUserException {
+    ) throws House.DuplicateProfileException {
         if (houseRepository.findById(houseId).isPresent() && profileRepository.findById(userId).isPresent()) {
             House currentHouse = houseRepository.findById(houseId).get();
-            User currentUser = profileRepository.findById(userId).get();
+            Profile currentProfile = profileRepository.findById(userId).get();
 
-            currentHouse.addRegisteredUser(currentUser);
-            currentUser.addProperty(currentHouse);
-            profileRepository.save(currentUser);
+            currentHouse.addRegisteredProfile(currentProfile);
+            currentProfile.addProperty(currentHouse);
+            profileRepository.save(currentProfile);
             return houseRepository.save(currentHouse);
         }
 
