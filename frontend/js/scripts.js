@@ -1,26 +1,7 @@
-
-function addVote(){    
-    const json = JSON.stringify({ 
-        "houseId": 114, 
-        "questionList": 
-        [
-            {
-                "questionText": "Вопрос",
-                "needsTwoThirds": false
-            }
-        ] 
-    });
-    axios.post('http://127.0.0.1:8080/voting/add', { 
-        houseId: 114, 
-        questionList: 
-        [
-            {
-                questionText: "а как какац?",
-                needsTwoThirds: false
-            }
-        ] 
-    }).then(res=>{console.log(res)});
+function addVoteRedirect(){
+    window.location.href = "addVote.html";
 }
+
 
 
 window.onload = function () {

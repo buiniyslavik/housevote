@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script><!-- Vue -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script><!-- axios -->
+    <script src="js/addVote.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавление голосования</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/font.css">
+</head>
+<body>
+    <header>
+        <div class="header_title">
+            ГОЛОСОВАНИЕ | ЖКХ-чат
+        </div> 
+        <div class="right_side_buttons">
+            <button onclick="addVote()">бутон1</button>
+            <button>бутон2</button>
+        </div>
+    </header>
+    <div class="main">
+        <div class="center">
+            <p>Добавление голосования</p>
+            <ul type=none>
+                <li>
+                    Вопрос: <input type="text" id="vote_message" value="">
+                    <button class="button_block" onclick="addVote()">Добавить</button>
+                </li>
+            </ul>
+        <div id="done"></div>
+        </div>
+    </div>
+    <footer>
+        <div>
+            <p class="footer_text">Made by ♂KWUH♂</p>
+        </div>
+    </footer>
+</body>
+</html>
