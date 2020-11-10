@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "title": "root",
+  "default": {},
+  "examples": [
+    {
+      "houseId": 114,
+      "questionList": [
+        {
+          "questionText": "Вопрос",
+          "needsTwoThirds": false
+        }
+      ]
+    }
+  ],
+  "required": [
+    "houseId",
+    "questionList"
+  ],
+  "properties": {
+    "houseId": {
+      "$id": "#/properties/houseId",
+      "type": "integer",
+      "title": "House ID",
+      "description": "Unique ID of the house where the vote will take place",
+      "default": 0,
+      "examples": [
+        114
+      ]
+    },
+    "questionList": {
+      "$id": "#/properties/questionList",
+      "type": "array",
+      "title": "Question List",
+      "description": "A list of questions for the vote",
+      "default": [],
+      "examples": [
+        [
+          {
+            "questionText": "Вопрос",
+            "needsTwoThirds": false
+          }
+        ]
+      ],
+      "additionalItems": true,
+      "items": {
+        "$id": "#/properties/questionList/items",
+        "anyOf": [
+          {
+            "$id": "#/properties/questionList/items/anyOf/0",
+            "type": "object",
+            "default": {},
+            "examples": [
+              {
+                "questionText": "Вопрос",
+                "needsTwoThirds": false
+              }
+            ],
+            "required": [
+              "questionText",
+              "needsTwoThirds"
+            ],
+            "properties": {
+              "questionText": {
+                "$id": "#/properties/questionList/items/anyOf/0/properties/questionText",
+                "type": "string",
+                "title": "Question text",
+                "description": "The question itself",
+                "default": "",
+                "examples": [
+                  "Вопрос"
+                ]
+              },
+              "needsTwoThirds": {
+                "$id": "#/properties/questionList/items/anyOf/0/properties/needsTwoThirds",
+                "type": "boolean",
+                "title": "Needs two thirds in order to pass",
+                "description": "Indicates whether a question needs 2/3 off votes in order to pass, as opposed to standard 50%",
+                "default": false,
+                "examples": [
+                  false
+                ]
+              }
+            },
+            "additionalProperties": true
+          }
+        ]
+      }
+    }
+  },
+  "additionalProperties": true
+}
