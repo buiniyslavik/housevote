@@ -1,6 +1,6 @@
 function addVote(){    
     axios.post('http://127.0.0.1:8080/voting/add', {
-        "houseId": 1, 
+        "houseId": document.getElementById("vote_house").value,
         "questionList": 
         [
             {
