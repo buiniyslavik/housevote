@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script><!-- Vue -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script><!-- axios -->
+    <script src="js/scripts.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная страница</title>
+    <link href="css/font.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="header_title">
+            ГОЛОСОВАНИЕ | ЖКХ-чат
+        </div> 
+        <div class="right_side_buttons">
+            <button onclick="addVote()">бутон1</button>
+            <button>бутон2</button>
+        </div>
+    </header>
+    
+    <div class="main">
+        <div class="questions">
+            <ul type=none>
+              <question-item
+                v-for="item in questionList"
+                v-bind:question="item"
+                v-bind:key="item.id"
+              ></question-item>
+            </ul>
+        </div>
+        <!--
+        <div class="questions">
+            <ul type=none>
+                <li>
+                    <div class="question">
+                        <p class="question_text">fffff fffffffffff ffffffffff fffffffff asalamu aleycum ruble have?</p>
+                        <button class="button_block">Да</button>
+                        <button class="button_block">Нет</button>
+                        <button class="button_block">Воздержусь</button>
+                    </div>
+                </li>
+                <li>
+                    <div class="question"> 
+                        <p class="question_text">ffffffffffffff fffffffffff ffffffffff asalamu aleycum ruble have?</p>
+                        <button class="button_block">Да</button>
+                        <button class="button_block">Нет</button>
+                        <button class="button_block">Воздержусь</button>
+                    </div>
+                </li>
+                <li>
+                    <div class="question">
+                        <p class="question_text">fffff fffffffffff ffffffffff fffffffff asalamu aleycum ruble have?</p>
+                        <button class="button_block">Да</button>
+                        <button class="button_block">Нет</button>
+                        <button class="button_block">Воздержусь</button>
+                    </div>
+                </li>
+                <li>
+                    <div class="question"> 
+                        <p class="question_text">ffffffffffffff fffffffffff ffffffffff asalamu aleycum ruble have?</p>
+                        <button class="button_block">Да</button>
+                        <button class="button_block">Нет</button>
+                        <button class="button_block">Воздержусь</button>
+                    </div>
+                </li>
+            </ul>
+        </div>-->
+        <div class="chat">
+            <div class="mes_scroll_container">
+            <ul type = none>
+                <li>
+                    <div class="message">
+                        <div class="message_author">Valery Ryzhaev</div>
+                        <div class="message_date_time">22.06.1975</div>
+                        <div class="message_text">привет сынок</div>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="message">
+                        <div class="message_author">Valery Ryzhaev</div>
+                        <div class="message_date_time">22.06.1975</div>
+                        <div class="message_text">тебе посылка на СДЕК пришла </div>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="message">
+                        <div class="message_author">Valery Ryzhaev</div>
+                        <div class="message_date_time">22.06.1975</div>
+                        <div class="message_text">Сходи забери</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="message">
+                        <div class="message_author">Valery Ryzhaev</div>
+                        <div class="message_date_time">22.06.1975</div>
+                        <div class="message_text">привет сынок</div>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="message">
+                        <div class="message_author">Valery Ryzhaev</div>
+                        <div class="message_date_time">22.06.1975</div>
+                        <div class="message_text">тебе посылка на СДЕК пришла </div>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="message">
+                        <div class="message_author">Valery Ryzhaev</div>
+                        <div class="message_date_time">22.06.1975</div>
+                        <div class="message_text">Сходи забери</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="message">
+                        <div class="message_author">Valery Ryzhaev</div>
+                        <div class="message_date_time">22.06.1975</div>
+                        <div class="message_text">привет сынок</div>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="message">
+                        <div class="message_author">Valery Ryzhaev</div>
+                        <div class="message_date_time">22.06.1975</div>
+                        <div class="message_text">тебе посылка на СДЕК пришла </div>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="message">
+                        <div class="message_author">Valery Ryzhaev</div>
+                        <div class="message_date_time">22.06.1975</div>
+                        <div class="message_text">Сходи забери</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="message">
+                        <div class="message_author">Valery Ryzhaev</div>
+                        <div class="message_date_time">22.06.1975</div>
+                        <div class="message_text">привет сынок</div>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="message">
+                        <div class="message_author">Valery Ryzhaev</div>
+                        <div class="message_date_time">22.06.1975</div>
+                        <div class="message_text">тебе посылка на СДЕК пришла </div>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="message">
+                        <div class="message_author">Valery Ryzhaev</div>
+                        <div class="message_date_time">22.06.1975</div>
+                        <div class="message_text">Сходи забери</div>
+                    </div>
+                </li>
+                
+            </ul>
+            </div>   
+            <form action="" method="POST" class="input_message">
+                <textarea name="message" class="input_text"></textarea>
+                <input type="submit" value="" class="send_message"></input>
+            </form>
+        </div>
+    </div>
+    <footer>
+        <div>
+            <p class="footer_text">Made by ♂KWUH♂</p>
+        </div>
+    </footer>
+</body>
+</html>
