@@ -67,6 +67,16 @@ public class VotingController {
         return null;
     }
 
+    @DeleteMapping("/{voteId}")
+    public Vote deleteVote(@PathVariable(name = "voteId") BigInteger voteId) {
+        if(voteRepository.findById(voteId).isPresent()){
+            Vote v = voteRepository.findById(voteId).get();
+            voteRepository.delete(v);
+            return v;
+        }
+        else return null;
+    }
+
     // -------------------------------------------------
 
 
@@ -75,6 +85,17 @@ public class VotingController {
         if (voteRepository.findById(voteId).isPresent())
             return voteRepository.findById(voteId).get().getQuestionList();
         else return null;
+    }
+
+    @PostMapping("/{voteId}/finish")
+    public Vote endVote(@PathVariable(name = "voteId") BigInteger voteId) {
+        if (voteRepository.findById(voteId).isPresent()) {
+            Vote vote = voteRepository.findById(voteId).get();
+            vote.finalizeAnswers();
+            voteRepository.save(vote);
+            return vote;
+        }
+        return null;
     }
 
     @PutMapping(value = "/{voteId}", consumes = "application/json")
