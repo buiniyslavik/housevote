@@ -41,19 +41,20 @@ public class HouseController {
     }
 
     @PostMapping(value = "/{houseId}/adduser")
-    public House addUserToHouse(@PathVariable(name = "houseId") BigInteger houseId, @RequestBody @NotNull BigInteger userId) {
+    public House addUserToHouse(
+            @PathVariable(name = "houseId") BigInteger houseId,
+            @RequestBody @NotNull BigInteger userId
+    ) throws House.DuplicateUserException {
         if (houseRepository.findById(houseId).isPresent() && profileRepository.findById(userId).isPresent()) {
             House currentHouse = houseRepository.findById(houseId).get();
             User currentUser = profileRepository.findById(userId).get();
-            if (currentHouse.getRegisteredUsers().stream().noneMatch(u -> u.equals(currentUser))) {
-                currentHouse.getRegisteredUsers().add(currentUser);
-                currentUser.getOwnedProperty().add(houseId);
-                profileRepository.save(currentUser);
-                return houseRepository.save(currentHouse);
-            } else {
-                return null; // need to throw an ex here
-            }
+
+            currentHouse.addRegisteredUser(currentUser);
+            currentUser.addProperty(currentHouse);
+            profileRepository.save(currentUser);
+            return houseRepository.save(currentHouse);
         }
+
         return null;
     }
 }
