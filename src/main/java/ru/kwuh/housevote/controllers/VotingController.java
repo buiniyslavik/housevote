@@ -31,21 +31,21 @@ public class VotingController {
 
     @GetMapping(value = {"/all", "/all/{page}"})
     public Iterable<Vote> showAllVoting(@PathVariable(name = "page", required = false) Integer pageNumber) {
-        PageRequest page = PageRequest.of(
-                Objects.requireNonNullElse(
-                        pageNumber, 0),
-                25,
-                Sort.by("postingDate").descending());
+        PageRequest page;
+        if(pageNumber != null)
+            page = PageRequest.of(pageNumber, 25, Sort.by("postingDate").descending());
+        else
+            page = PageRequest.of(0,25, Sort.by("postingDate").descending());
         return voteRepository.findAll(page).getContent();
     }
 
     @GetMapping(value = {"/current", "/current/{page}"})
     public Iterable<Vote> showCurrentVoting(@PathVariable(name = "page", required = false) Integer pageNumber) {
-        PageRequest page = PageRequest.of(
-                Objects.requireNonNullElse(
-                        pageNumber, 0),
-                25,
-                Sort.by("postingDate").descending());
+        PageRequest page;
+        if(pageNumber != null)
+            page = PageRequest.of(pageNumber, 25, Sort.by("postingDate").descending());
+        else
+            page = PageRequest.of(0,25, Sort.by("postingDate").descending());
         return voteRepository.findAll(page)
                 .getContent()
                 .stream()

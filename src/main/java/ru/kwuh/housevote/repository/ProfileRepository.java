@@ -7,4 +7,5 @@ import java.math.BigInteger;
 
 public interface ProfileRepository extends MongoRepository<Profile, BigInteger> {
     Profile findUserByEmailAddress(String email);
+    Boolean existsUserByEmailAddress(String email);
 }

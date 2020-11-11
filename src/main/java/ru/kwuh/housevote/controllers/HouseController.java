@@ -30,11 +30,12 @@ public class HouseController {
 
     @GetMapping(value = {"/all", "/all/{page}"})
     public Iterable<House> showAllHouses(@PathVariable(name = "page", required = false) Integer pageNumber) {
-        PageRequest page = PageRequest.of(
-                Objects.requireNonNullElse(
-                        pageNumber, 0),
-                25,
-                Sort.by("postingDate").descending());
+
+        PageRequest page;
+        if(pageNumber != null)
+            page = PageRequest.of(pageNumber, 25, Sort.by("postingDate").descending());
+        else
+            page = PageRequest.of(0,25, Sort.by("postingDate").descending());
         return houseRepository.findAll(page).getContent();
     }
 

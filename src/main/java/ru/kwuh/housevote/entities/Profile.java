@@ -3,7 +3,6 @@ package ru.kwuh.housevote.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
@@ -19,11 +18,12 @@ public class Profile {
     @Id
     BigInteger id;
 
-    @Email
+    @Email @NotNull @JsonIgnore
     String emailAddress;
+    @NotNull @JsonIgnore
     String passwordHash;
 
-    SimpleGrantedAuthority accessLevel;
+//    SimpleGrantedAuthority accessLevel;
 
     @NotNull
     String firstName;
@@ -31,21 +31,29 @@ public class Profile {
     String lastName;
     String paternal;
     boolean isConfirmed = true; // наличие подтверждённой учётки на госуслугах
-//    @DBRef(lazy = true)
+
+    public Profile(String emailAddress, String passwordHash, String firstName, String lastName, String paternal) {
+        this.emailAddress = emailAddress;
+        this.passwordHash = passwordHash;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.paternal = paternal;
+    }
+
+    //    @DBRef(lazy = true)
     @JsonIgnore
     List<BigInteger> ownedProperty;
 
     public List<BigInteger> getOwnedProperty() {
-        if(ownedProperty==null) {
+        if (ownedProperty == null) {
             ownedProperty = new ArrayList<>();
         }
         return ownedProperty;
     }
 
     public void addProperty(House house) throws House.DuplicateProfileException {
-        if(!getOwnedProperty().contains(house.getId())) {
+        if (!getOwnedProperty().contains(house.getId())) {
             ownedProperty.add(house.getId());
-        }
-        else throw new House.DuplicateProfileException();
+        } else throw new House.DuplicateProfileException();
     }
 }
