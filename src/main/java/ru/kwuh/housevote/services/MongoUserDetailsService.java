@@ -23,7 +23,7 @@ public class MongoUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         Profile profile = profileRepository.findUserByEmailAddress(s);
-        if(profile ==null) throw new UsernameNotFoundException("Profile with that email does not exist");
+        if (profile == null) throw new UsernameNotFoundException("Profile with that email does not exist");
         List<SimpleGrantedAuthority> authorities = Collections.singletonList(
                 new SimpleGrantedAuthority("user")
         );
@@ -33,7 +33,7 @@ public class MongoUserDetailsService implements UserDetailsService {
                 authorities);
     }
 
-    public Profile createProfile(SignupRequest signupRequest) {
+  /*  public Profile createProfile(SignupRequest signupRequest) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         Profile profile = new Profile(
                 signupRequest.getEmail(),
@@ -44,5 +44,7 @@ public class MongoUserDetailsService implements UserDetailsService {
         );
         return profile;
     }
+
+   */
 
 }
