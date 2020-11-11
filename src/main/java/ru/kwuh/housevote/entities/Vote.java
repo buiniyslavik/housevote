@@ -23,7 +23,8 @@ import java.util.List;
 //@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Vote {
     @Id // @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    BigInteger id;
+    String id;
+//    String jsonId;
     //BigInteger voteId;
     @NotNull
     //@Indexed

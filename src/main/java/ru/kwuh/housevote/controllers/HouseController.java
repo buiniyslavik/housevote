@@ -25,6 +25,7 @@ public class HouseController {
 
     @PostMapping(path = "/add", consumes = "application/json")
     public House addHouse(@RequestBody @Valid House house) {
+//        House house1 = house;
         return houseRepository.save(house);
     }
 

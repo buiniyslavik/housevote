@@ -8,7 +8,7 @@ import java.math.BigInteger;
 @Data
 public class Response {
     @NotNull
-    BigInteger profileId;
+    String profileId;
     @NotNull
     int questionNumber;
     Question.Answers answer;

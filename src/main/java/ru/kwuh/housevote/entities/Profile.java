@@ -16,8 +16,7 @@ import java.util.List;
 @Document
 public class Profile {
     @Id
-    BigInteger id;
-
+    String id;
     @Email @NotNull @JsonIgnore
     String emailAddress;
     @NotNull @JsonIgnore
@@ -52,8 +51,8 @@ public class Profile {
     }
 
     public void addProperty(House house) throws House.DuplicateProfileException {
-        if (!getOwnedProperty().contains(house.getId())) {
-            ownedProperty.add(house.getId());
+        if (!getOwnedProperty().contains(new BigInteger(house.getId()))) {
+            ownedProperty.add(new BigInteger(house.getId()));
         } else throw new House.DuplicateProfileException();
     }
 }

@@ -15,7 +15,8 @@ import java.util.List;
 @Document
 public class House {
     @Id
-    BigInteger id;
+    String id;
+//    String jsonId;
     @NotNull
     String address;
     @DBRef(lazy = true)

@@ -36,6 +36,7 @@ public class ProfileController {
                     signupRequest.getLastName(),
                     signupRequest.getPaternal()
             );
+            //profile.setJsonId();
             return profileRepository.save(profile);
         }
         return null;
