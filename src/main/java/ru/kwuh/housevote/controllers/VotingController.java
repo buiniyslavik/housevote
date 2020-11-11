@@ -7,10 +7,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import ru.kwuh.housevote.entities.*;
 import ru.kwuh.housevote.repository.HouseRepository;
+import ru.kwuh.housevote.repository.ProfileRepository;
 import ru.kwuh.housevote.repository.VoteRepository;
 
 import javax.validation.Valid;
 import java.math.BigInteger;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -29,6 +31,9 @@ public class VotingController {
     @Autowired
     HouseRepository houseRepository;
 
+    @Autowired
+    ProfileRepository profileRepository;
+
     @GetMapping(value = {"/all", "/all/{page}"})
     public Iterable<Vote> showAllVoting(@PathVariable(name = "page", required = false) Integer pageNumber) {
         PageRequest page;
@@ -39,7 +44,7 @@ public class VotingController {
         return voteRepository.findAll(page).getContent();
     }
 
-    @GetMapping(value = {"/current", "/current/{page}"})
+    @GetMapping(value = {"/all/current", "/all/current/{page}"})
     public Iterable<Vote> showCurrentVoting(@PathVariable(name = "page", required = false) Integer pageNumber) {
         PageRequest page;
         if(pageNumber != null)
@@ -51,6 +56,13 @@ public class VotingController {
                 .stream()
                 .filter(Vote::isCurrentlyUsed)
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/available")
+    public Iterable<Vote> showAvailableVoting(Principal principal) {
+        String currentUserEmail = principal.getName();
+        List<BigInteger> currentUserProperty = profileRepository.findUserByEmailAddress(currentUserEmail).getOwnedProperty();
+        return voteRepository.findAllByHouseId(currentUserProperty);
     }
 
     @PostMapping(value = "/add", consumes = "application/json")
@@ -65,7 +77,7 @@ public class VotingController {
         return null;
     }
 
-    @DeleteMapping("/{voteId}")
+    @DeleteMapping("/id/{voteId}")
     public Vote deleteVote(@PathVariable(name = "voteId") BigInteger voteId) {
         if(voteRepository.findById(voteId).isPresent()){
             Vote v = voteRepository.findById(voteId).get();
@@ -78,14 +90,14 @@ public class VotingController {
     // -------------------------------------------------
 
 
-    @GetMapping("/{voteId}")
+    @GetMapping("/id/{voteId}")
     public Iterable<Question> showVoteQuestions(@PathVariable(name = "voteId") BigInteger voteId) {
         if (voteRepository.findById(voteId).isPresent())
             return voteRepository.findById(voteId).get().getQuestionList();
         else return null;
     }
 
-    @PostMapping("/{voteId}/finish")
+    @PostMapping("/id/{voteId}/finish")
     public Vote endVote(@PathVariable(name = "voteId") BigInteger voteId) {
         if (voteRepository.findById(voteId).isPresent()) {
             Vote vote = voteRepository.findById(voteId).get();
@@ -96,7 +108,7 @@ public class VotingController {
         return null;
     }
 
-    @PutMapping(value = "/{voteId}", consumes = "application/json")
+    @PutMapping(value = "/id/{voteId}", consumes = "application/json")
     public Iterable<Response> respondToQuestion(
             @PathVariable(name="voteId") BigInteger voteId,
             @RequestBody Response response

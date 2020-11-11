@@ -39,7 +39,7 @@ public class HouseController {
         return houseRepository.findAll(page).getContent();
     }
 
-    @PostMapping(value = "/{houseId}/adduser")
+    @PostMapping(value = "/id/{houseId}/adduser")
     public House addProfileToHouse(
             @PathVariable(name = "houseId") BigInteger houseId,
             @RequestBody @NotNull BigInteger userId
@@ -53,7 +53,6 @@ public class HouseController {
             profileRepository.save(currentProfile);
             return houseRepository.save(currentHouse);
         }
-
         return null;
     }
 }
