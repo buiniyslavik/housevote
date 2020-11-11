@@ -62,7 +62,7 @@ public class VotingController {
     public Iterable<Vote> showAvailableVoting(Principal principal) {
         String currentUserEmail = principal.getName();
         List<BigInteger> currentUserProperty = profileRepository.findUserByEmailAddress(currentUserEmail).getOwnedProperty();
-        return voteRepository.findAllByHouseId(currentUserProperty);
+        return voteRepository.findByHouseIdIn(currentUserProperty);
     }
 
     @PostMapping(value = "/add", consumes = "application/json")

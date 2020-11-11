@@ -26,7 +26,7 @@ public class Vote {
     BigInteger id;
     //BigInteger voteId;
     @NotNull
-    @Indexed
+    //@Indexed
     BigInteger houseId; // дом, в котором проходит голосование
     LocalDateTime postingDate; // дата создания голосования
     LocalDateTime voteStartDate;
