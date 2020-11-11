@@ -17,15 +17,16 @@ window.onload = function () {
             '</div>'+
         '</li>'
       });
+
     var questionList = new Vue({
         el: '.questions',
         data() {
             return{
-                    questionList: []
+                questionList: []
             };
         },
         mounted(){
-            axios.get('http://localhost:8080/voting/all').then(response =>(this.questionList = response.data));
+            axios.get('api/voting/all').then(response =>(this.questionList = response.data));
         }
     });
 }
