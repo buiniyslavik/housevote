@@ -1,8 +1,8 @@
+//const addVoteConnection = 'http://127.0.0.1:8080/voting/all';
+const addVoteConnection = 'api/voting/all';
 function addVoteRedirect(){
     window.location.href = "addVote.html";
 }
-
-
 
 window.onload = function () {
     Vue.component('question-item', {
@@ -26,7 +26,7 @@ window.onload = function () {
             };
         },
         mounted(){
-            axios.get('api/voting/all').then(response =>(this.questionList = response.data));
+            axios.get(addVoteConnection).then(response =>(this.questionList = response.data));
         }
     });
 }

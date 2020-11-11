@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script><!-- Vue -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script><!-- axios -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/admin.js"></script>
+    <link rel="stylesheet" href="css/admin.css">
+    <title>Admin-panel</title>
+</head>
+<body>
+
+    <div class="houses left border marginPadding10">
+        <p>Это все дома:</p>
+        <textarea cols="30" rows="3">{{ info }}</textarea>
+    </div>
+
+    <div class="profiles left border marginPadding10">
+        <p>Это все пользователи:</p>
+        <textarea cols="30" rows="3">{{ info }}</textarea>
+    </div>
+
+    <div class="questions left border marginPadding10">
+        <p>Это вопросы:</p>
+        <textarea cols="30" rows="3">{{ info }}</textarea>
+    </div>
+
+    <div class="left border marginPadding10">
+        <p>Создать профиль:</p>
+        email: <input type="text" id="NProfileEmail"><br>
+        pass: <input type="text" id="NProfileRawPassword"><br>
+        first name: <input type="text" id="NProfileFirstName"><br>
+        last name: <input type="text" id="NProfileLastName"><br>
+        paternal: <input type="text" id="NProfilePaternal"><br>
+        <button id="NProfileAddButton" onclick="addProfile()">Создать юзверя</button>
+    </div>
+
+    <div class="left border marginPadding10">
+        <p>Создать голосование:</p>
+        Дом (id): <input type="text" id="NVoteHouseId"><br>
+        Вопрос: <input type="text" id="NVoteQuestion"><br>
+        Нужно 2/3: <input type="checkbox" id="NVoteNeedsTwoThirds"><br>
+        <button id="NVoteAddButton" onclick="addVote()">Добавить голосование</button>
+    </div>
+
+    <div class="left border marginPadding10">
+        <p>Ответить на вопрос:</p>
+        voteId: <input type="text" id = "NQuestVoteId"><br> 
+        userid: <input type="text" id="NQuestUserId"><br>
+        questionNumber: <input type="text" value=0 id="NQuestQuestNumber"><br>
+        answer:<br>
+        <button onclick="addQuestion('YES')">Да</button><br>
+        <button onclick="addQuestion('NO')">Нет</button><br>
+        <button onclick="addQuestion('ABSTAINED')">Воздержусь</button><br>
+    </div>
+</body>
+</html>

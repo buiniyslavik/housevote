@@ -28,7 +28,7 @@ public class Vote {
     //BigInteger voteId;
     @NotNull
     //@Indexed
-    BigInteger houseId; // дом, в котором проходит голосование
+    String houseId; // дом, в котором проходит голосование
     LocalDateTime postingDate; // дата создания голосования
     LocalDateTime voteStartDate;
     LocalDateTime voteEndDate;
@@ -62,7 +62,7 @@ public class Vote {
     } */
 
     @PersistenceConstructor
-    public Vote(BigInteger houseId, LocalDateTime postingDate, LocalDateTime voteStartDate,
+    public Vote(String houseId, LocalDateTime postingDate, LocalDateTime voteStartDate,
                 LocalDateTime voteEndDate, boolean isCurrentlyUsed, List<Question> questionList) {
         this.houseId = houseId;
         this.postingDate = postingDate;

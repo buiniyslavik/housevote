@@ -42,8 +42,8 @@ public class HouseController {
 
     @PostMapping(value = "/id/{houseId}/adduser")
     public House addProfileToHouse(
-            @PathVariable(name = "houseId") BigInteger houseId,
-            @RequestBody @NotNull BigInteger userId
+            @PathVariable(name = "houseId") String houseId,
+            @RequestBody @NotNull String userId
     ) throws House.DuplicateProfileException {
         if (houseRepository.findById(houseId).isPresent() && profileRepository.findById(userId).isPresent()) {
             House currentHouse = houseRepository.findById(houseId).get();
