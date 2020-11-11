@@ -1,27 +1,38 @@
 const server = 'http://127.0.0.1:8080';
 //const server = 'api';
-const votingAllConnection = server + '/voting/all';
-const houseAllConnection = server + '/house/all';
-const profileAllConnection = server + '/profile/all';
-const addProfileConnection = server + '/profile/create';
-const addVoteConnection = server + '/voting/add';
-const addQuestionConnection = server + '/voting/id/';
-
 
 const encodedUserPswd = btoa('alexresh62@yandex.ru:12345');
+
+const votingPage = '/voting';
+const housePage = '/house';
+const profilePage = '/profile';
+const votingAllConnection = server + votingPage + '/all';
+const houseAllConnection = server + housePage + '/all';
+const profileAllConnection = server + profilePage +'/all';
+const addProfileConnection = server + profilePage + '/create';
+const addVoteConnection = server + votingPage + '/add';
+const addAnswerConnection = server + votingPage + '/id/';
+const addHouseConnection = server + housePage + '/add';
+auth = {
+    headers: { 
+        'Authorization': `Basic ${encodedUserPswd}`
+    }
+}
+
+
 window.onload = function () {
     getQuestions();
     getHouses();
     getProfiles();
 }
 
-function addQuestion(answer){
-    axios.put(addQuestionConnection + document.getElementById("NQuestVoteId"), 
+function addAnswer(answer){
+    axios.put(addAnswerConnection + document.getElementById("NQuestVoteId").value, 
         {
             "userId": document.getElementById("NQuestUserId").value,
             "questionNumber": document.getElementById("NQuestQuestNumber").value,
             "answer": answer
-        });
+        }, auth);
 }
 
 function addProfile(){
@@ -37,9 +48,17 @@ function addProfile(){
         "lastName": document.getElementById("NProfileLastName").value,
         "paternal": paternal
     });
-    document.getElementById("NProfileAddButton").innerHTML = "Создано";
+    document.getElementById("NProfileAddButton").innerHTML = "Создано, возможно";
     setTimeout("document.getElementById('NProfileAddButton').innerHTML = 'Создать юзверя'",2000);
 }
+
+function addHouse(){
+    axios.post(addHouseConnection, {
+        "address": document.getElementById("NHouseAddress").value,
+    }, auth);  
+    document.getElementById("NHouseAddButton").innerHTML = "Добавлено, возможно";
+    setTimeout("document.getElementById('NHouseAddButton').innerHTML = 'Добавить дом'",2000);
+ }
 
 function addVote(){
     needsTwoThirds = document.getElementById("NVoteNeedsTwoThirds").checked;
@@ -52,15 +71,16 @@ function addVote(){
                 "needsTwoThirds": needsTwoThirds
             }
         ] 
-    },
-    {
-        headers: { 
-            'Authorization': `Basic ${encodedUserPswd}`
-        }
-    });  
-    document.getElementById("NVoteAddButton").innerHTML = "Создано";
+    }, auth);  
+    document.getElementById("NVoteAddButton").innerHTML = "Создано, возможно";
     setTimeout("document.getElementById('NVoteAddButton').innerHTML = 'Создать юзверя'",2000);
  }
+
+function deleteVote(){
+    axios.del(votingPage + "/id/" + document.getElementById("DVote").value)
+    document.getElementById("DVote").innerHTML = "Удалено, возможно";
+    setTimeout("document.getElementById('DVote').innerHTML = Удалить")
+}
 
 function getHouses(){
       var VueHouses = new Vue({
@@ -71,11 +91,7 @@ function getHouses(){
             };
         },
         mounted(){
-            axios.get(houseAllConnection,{
-                headers: { 
-                    'Authorization': `Basic ${encodedUserPswd}`
-                }
-            }).then(response =>(this.info = response.data));
+            axios.get(houseAllConnection, auth).then(response =>(this.info = response.data));
         }
     });
 }
@@ -90,11 +106,7 @@ function getQuestions(){
             };
         },
         mounted(){
-            axios.get(votingAllConnection,{
-                headers: { 
-                    'Authorization': `Basic ${encodedUserPswd}`
-                }
-            }).then(response =>(this.info = response.data));
+            axios.get(votingAllConnection, auth).then(response =>(this.info = response.data));
         }
     });
 }
@@ -108,11 +120,7 @@ function getProfiles(){
             }
         },
         mounted(){
-            axios.get(profileAllConnection,{
-                headers: { 
-                    'Authorization': `Basic ${encodedUserPswd}`
-                }
-            }).then(response =>(this.info = response.data));
+            axios.get(profileAllConnection, auth).then(response =>(this.info = response.data));
         }
     });
 }
