@@ -49,7 +49,7 @@ function addProfile(){
         "paternal": paternal
     });
     document.getElementById("NProfileAddButton").innerHTML = "Создано, возможно";
-    setTimeout("document.getElementById('NProfileAddButton').innerHTML = 'Создать юзверя'",2000);
+    setTimeout("location.reload()",2000);
 }
 
 function addHouse(){
@@ -57,7 +57,7 @@ function addHouse(){
         "address": document.getElementById("NHouseAddress").value,
     }, auth);  
     document.getElementById("NHouseAddButton").innerHTML = "Добавлено, возможно";
-    setTimeout("document.getElementById('NHouseAddButton').innerHTML = 'Добавить дом'",2000);
+    setTimeout("location.reload()",2000);
  }
 
 function addVote(){
@@ -77,9 +77,9 @@ function addVote(){
  }
 
 function deleteVote(){
-    axios.del(votingPage + "/id/" + document.getElementById("DVote").value)
-    document.getElementById("DVote").innerHTML = "Удалено, возможно";
-    setTimeout("document.getElementById('DVote').innerHTML = Удалить")
+    axios.delete(server + votingPage + "/id/" + document.getElementById("DVote").value+"/", auth);
+    document.getElementById("DVoteDelButton").innerHTML = "Удалено, возможно";
+    setTimeout("location.reload()", 2000);
 }
 
 function getHouses(){
