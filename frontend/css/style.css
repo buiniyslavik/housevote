@@ -101,6 +101,7 @@ footer{
 .footer_text{
     margin: 0px;
     padding: 5px;
+	font-family: 'Lobster', arial;
 }
 .chat{
     background-color: white;
