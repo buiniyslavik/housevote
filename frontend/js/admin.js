@@ -57,6 +57,7 @@ function auth(){
                 document.getElementById("errorArea").innerHTML += error;
             }
         });
+        setTimeout("window.location.href = 'index.html'", 10);//goto main page
 
 }
 
