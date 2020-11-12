@@ -1,5 +1,5 @@
 function sendMessage(){
-    var name = "Valeriy Ryzhaev";
+    var name = "Vanya Ryzhaev";
     var date = new Date();
     var dateString = date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear();
     var text = document.getElementById("message").value;

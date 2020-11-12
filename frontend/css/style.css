@@ -14,7 +14,7 @@ header{
 }
 
 button{
-	border: none;
+    border: none;
 }
 
 .right_side_buttons{
@@ -39,6 +39,11 @@ button:active {
 }
     
 button:focus {outline:0;}
+
+#options{
+    width: 8%;
+    border: none;
+}
 
 .right_side_buttons button:hover{
     background-color: white;

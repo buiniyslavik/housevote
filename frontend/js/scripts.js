@@ -63,10 +63,4 @@ function getQuestions(){
             }
         }
     });
-    /*
-    `<button class="button_block" v-on:click="addAnswer('YES', question.id)">Да</button>`+
-                `<button class="button_block" v-on:click="addAnswer('NO', question.id)">Нет</button>`+
-                `<button class="button_block" v-on:click="addAnswer('ABSTAINED', question.id)">Воздержусь</button>`+
-    */
-   
 }
