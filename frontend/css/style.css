@@ -158,6 +158,7 @@ p{
     border-radius: 4px;
     position: relative;
     font: 18pt monospace;
+    padding: 1vh;
 }
 
 .message_date_time{
@@ -167,7 +168,6 @@ p{
     display: inline-block; 
     position: absolute;
     right: 0px;
-
 }
 .message_text{
     margin: 5px 10px;

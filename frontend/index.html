@@ -37,7 +37,7 @@
         
         <div class="chat">
             <div class="mes_scroll_container" id="scroll_container">
-            <ul type = none>
+            <ul id="chatList" type=none>
                 <li>
                     <div class="message">
                         <div class="message_author">Valery Ryzhaev</div>
@@ -134,8 +134,8 @@
             </ul>
             </div>   
             <form action="" method="POST" class="input_message">
-                <textarea name="message" class="input_text"></textarea>
-				<button type="button" class="send_message"></button>
+                <textarea name="message" id="message" class="input_text"></textarea>
+				<button type="button" class="send_message" onclick=sendMessage()></button>
             </form>
         </div>
     </div>
