@@ -1,5 +1,7 @@
+//const addVoteConnection = 'http://127.0.0.1:8080/voting/add';
+const addVoteConnection = 'api/voting/add';
 function addVote(){    
-    axios.post('api/voting/add', {
+    axios.post(addQuestionConnection, {
         "houseId": document.getElementById("vote_house").value,
         "questionList": 
         [

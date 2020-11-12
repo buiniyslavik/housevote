@@ -1,0 +1,24 @@
+body{
+    margin: 0px;
+    padding: 0px;
+}
+
+.left{
+    float: left;
+}
+
+.border{
+    border: 1px solid black;
+}
+
+
+.threeGrid{
+    text-align: center;
+    width: 33%;
+    height: 33vh;
+}
+
+textarea{
+    width: 90%;
+    height: 60%;
+}
