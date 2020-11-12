@@ -183,18 +183,32 @@ p{
     background-image: url(../icons/send.png);
     background-repeat: no-repeat;
     border: none;
-    position: absolute;
     width:50px;
     height: 50px;
     margin-left: 3vh;
     background-size: 50px;
     border-radius: 25px;
-	margin-top: 3vh;
+    margin-top: 3vh;
+    border: #336699 2px;
 }
-.send_message:focus{
-    border: none;
-    border-radius: 15px;
+.send_message:hover{
+    margin-left: calc(3vh - 5px);
+    margin-top: calc(3vh - 5px);
+    width:60px;
+    height: 60px;
+    background-size: cover;
+    transition: 0.3s;
 }
+
+.send_message:active{
+    margin-left: calc(3vh - 3px);
+    margin-top: calc(3vh - 3px);
+    width: 56px;
+    height: 56px;
+    background-size: cover;
+    transition: 0.1s;
+}
+
 .input_message{
     margin:  0px 30px;
     position: relative;
