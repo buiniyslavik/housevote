@@ -3,6 +3,10 @@ body{
     padding: 0px;
 }
 
+.main{
+    margin-top: 20px;
+}
+
 .left{
     float: left;
 }
@@ -21,4 +25,11 @@ body{
 textarea{
     width: 90%;
     height: 60%;
+}
+#errorArea{
+    width: 90%;
+}
+.errors{
+    text-align: center;
+    width: 100%;
 }

@@ -1,8 +1,6 @@
 const server = 'http://127.0.0.1:8080';
 //const server = 'api';
 
-const encodedUserPswd = btoa('alexresh62@yandex.ru:12345');
-
 const votingPage = '/voting';
 const housePage = '/house';
 const profilePage = '/profile';
@@ -13,11 +11,6 @@ const addProfileConnection = server + profilePage + '/create';
 const addVoteConnection = server + votingPage + '/add';
 const addAnswerConnection = server + votingPage + '/id/';
 const addHouseConnection = server + housePage + '/add';
-auth = {
-    headers: { 
-        'Authorization': `Basic ${encodedUserPswd}`
-    }
-}
 
 
 window.onload = function () {
@@ -26,13 +19,58 @@ window.onload = function () {
     getProfiles();
 }
 
+function addProfileToHouse(){
+
+    axios.post(server + housePage + "/id/" + document.getElementById("PHouseId").value + "/adduser",
+    document.getElementById("ProfileID").value,
+    {headers: { 'Content-Type': 'text/plain' }})
+    .catch(function(error){
+        if(error.response.status == 404){
+            document.getElementById("errorArea").innerHTML += "\n" +"[404], либо серв не запущен, либо надо поменять ip серва";
+        }if(error.response.status == 401){
+            document.getElementById("errorArea").innerHTML += "\n" +"[401], Авторизуйся";
+        }else{
+            document.getElementById("errorArea").innerHTML += error;
+    }
+    });
+    document.getElementById("PAddProfileToHouse").innerHTML = "Привязано, возможно";
+    setTimeout("location.reload()",2000);
+}
+
+function auth(){
+    var bodyFormData = new FormData();
+    bodyFormData.append('username', document.getElementById('AUsername').value);
+    bodyFormData.append('password', document.getElementById('APassword').value);
+    axios.post(server + '/profile/login', bodyFormData, {
+        headers: {'Content-Type': 'multipart/form-data' }
+        }).catch(function(error){
+            if(error.response.status == 404){
+                document.getElementById("errorArea").innerHTML += "\n" +"[404], либо серв не запущен, либо надо поменять ip серва";
+            }if(error.response.status == 401){
+                document.getElementById("errorArea").innerHTML += "\n" +"[401], Авторизуйся";
+            }else{
+                document.getElementById("errorArea").innerHTML += error;
+            }
+        });
+
+}
+
 function addAnswer(answer){
     axios.put(addAnswerConnection + document.getElementById("NQuestVoteId").value, 
         {
-            "userId": document.getElementById("NQuestUserId").value,
+            "profileId": document.getElementById("NQuestUserId").value,
             "questionNumber": document.getElementById("NQuestQuestNumber").value,
             "answer": answer
-        }, auth);
+        }).catch(function(error){
+            if(error.response.status == 404){
+                document.getElementById("errorArea").innerHTML += "\n" +"[404], либо серв не запущен, либо надо поменять ip серва";
+            }if(error.response.status == 401){
+                document.getElementById("errorArea").innerHTML += "\n" +"[401], Авторизуйся";
+            }else{
+                document.getElementById("errorArea").innerHTML += error;
+            }
+        });
+    setTimeout("location.reload()",2000);
 }
 
 function addProfile(){
@@ -47,6 +85,14 @@ function addProfile(){
         "firstName": document.getElementById("NProfileFirstName").value,
         "lastName": document.getElementById("NProfileLastName").value,
         "paternal": paternal
+    }).catch(function(error){
+        if(error.response.status == 404){
+            document.getElementById("errorArea").innerHTML += "\n" +"[404], либо серв не запущен, либо надо поменять ip серва";
+        }if(error.response.status == 401){
+            document.getElementById("errorArea").innerHTML += "\n" +"[401], Авторизуйся";
+        }else{
+            document.getElementById("errorArea").innerHTML += error;
+        }
     });
     document.getElementById("NProfileAddButton").innerHTML = "Создано, возможно";
     setTimeout("location.reload()",2000);
@@ -55,7 +101,15 @@ function addProfile(){
 function addHouse(){
     axios.post(addHouseConnection, {
         "address": document.getElementById("NHouseAddress").value,
-    }, auth);  
+    }).catch(function(error){
+        if(error.response.status == 404){
+            document.getElementById("errorArea").innerHTML += "\n" +"[404], либо серв не запущен, либо надо поменять ip серва";
+        }if(error.response.status == 401){
+            document.getElementById("errorArea").innerHTML += "\n" +"[401], Авторизуйся";
+        }else{
+            document.getElementById("errorArea").innerHTML += error;
+        }
+    });  
     document.getElementById("NHouseAddButton").innerHTML = "Добавлено, возможно";
     setTimeout("location.reload()",2000);
  }
@@ -71,13 +125,30 @@ function addVote(){
                 "needsTwoThirds": needsTwoThirds
             }
         ] 
-    }, auth);  
+    }).catch(function(error){
+        if(error.response.status == 404){
+            document.getElementById("errorArea").innerHTML += "\n" +"[404], либо серв не запущен, либо надо поменять ip серва";
+        }if(error.response.status == 401){
+            document.getElementById("errorArea").innerHTML += "\n" +"[401], Авторизуйся";
+        }else{
+            document.getElementById("errorArea").innerHTML += error;
+        }
+    });  
     document.getElementById("NVoteAddButton").innerHTML = "Создано, возможно";
-    setTimeout("document.getElementById('NVoteAddButton').innerHTML = 'Создать юзверя'",2000);
+    setTimeout("location.reload()",2000);
  }
 
 function deleteVote(){
-    axios.delete(server + votingPage + "/id/" + document.getElementById("DVote").value+"/", auth);
+    axios.delete(server + votingPage + "/id/" + document.getElementById("DVote").value+"/")
+    .catch(function(error){
+        if(error.response.status == 404){
+            document.getElementById("errorArea").innerHTML += "\n" +"[404], либо серв не запущен, либо надо поменять ip серва";
+        }if(error.response.status == 401){
+            document.getElementById("errorArea").innerHTML += "\n" +"[401], Авторизуйся";
+        }else{
+            document.getElementById("errorArea").innerHTML += error;
+        }
+    });
     document.getElementById("DVoteDelButton").innerHTML = "Удалено, возможно";
     setTimeout("location.reload()", 2000);
 }
@@ -91,7 +162,16 @@ function getHouses(){
             };
         },
         mounted(){
-            axios.get(houseAllConnection, auth).then(response =>(this.info = response.data));
+            axios.get(houseAllConnection).then(response =>(this.info = response.data))
+            .catch(function(error){
+                if(error.response.status == 404){
+                    document.getElementById("errorArea").innerHTML += "\n" +"[404], либо серв не запущен, либо надо поменять ip серва";
+                }if(error.response.status == 401){
+                    document.getElementById("errorArea").innerHTML += "\n" +"[401], Авторизуйся";
+                }else{
+                    document.getElementById("errorArea").innerHTML += error;
+                }
+            });
         }
     });
 }
@@ -106,7 +186,16 @@ function getQuestions(){
             };
         },
         mounted(){
-            axios.get(votingAllConnection, auth).then(response =>(this.info = response.data));
+            axios.get(votingAllConnection).then(response =>(this.info = response.data))
+            .catch(function(error){
+                if(error.response.status == 404){
+                    document.getElementById("errorArea").innerHTML += "\n" +"[404], либо серв не запущен, либо надо поменять ip серва";
+                }if(error.response.status == 401){
+                    document.getElementById("errorArea").innerHTML += "\n" +"[401], Авторизуйся";
+                }else{
+                    document.getElementById("errorArea").innerHTML += error;
+                }
+            });
         }
     });
 }
@@ -120,7 +209,16 @@ function getProfiles(){
             }
         },
         mounted(){
-            axios.get(profileAllConnection, auth).then(response =>(this.info = response.data));
+            axios.get(profileAllConnection).then(response =>(this.info = response.data))
+            .catch(function(error){
+                if(error.response.status == 404){
+                    document.getElementById("errorArea").innerHTML += "\n" +"[404], либо серв не запущен, либо надо поменять ip серва";
+                }if(error.response.status == 401){
+                    document.getElementById("errorArea").innerHTML += "\n" +"[401], Авторизуйся";
+                }else{
+                    document.getElementById("errorArea").innerHTML += error;
+                }
+            });
         }
     });
 }
