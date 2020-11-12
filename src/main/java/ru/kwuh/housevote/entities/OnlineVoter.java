@@ -15,7 +15,7 @@ public class OnlineVoter implements Voter {
     @NotNull
     final String profileId;
     List<Response> responses;
-    HashCode responseHash = null;
+    String responseHash;
 
     @Override
     public List<Response> getResponses() {
@@ -23,10 +23,10 @@ public class OnlineVoter implements Voter {
         return responses;
     }
 
-    public void hashResponses() {
+    public void hashResponses(String questionsHash) {
         if(responses != null)
         responseHash = Hashing.sha256().hashString(
                 responses.toString(), StandardCharsets.UTF_8
-        );
+        ).toString();
     }
 }

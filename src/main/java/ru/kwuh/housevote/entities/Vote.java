@@ -1,6 +1,7 @@
 package ru.kwuh.housevote.entities;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
+import com.google.common.hash.Hashing;
 import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.PersistenceConstructor;
@@ -13,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,13 @@ public class Vote {
     //   String question;
     List<OnlineVoter> onlineParticipants;
     List<OfflineVoter> offlineVoters;
+
+    String prevBlockHash;
+    String metadataHash;
+    String questionsHash;
+    String onlineParticipantsHash;
+    String offlineParticipantsHash;
+    String combinedParticipantsHash;
 
     private Vote() {
         postingDate = LocalDateTime.now();
@@ -83,8 +92,29 @@ public class Vote {
     }
 
     public void finalizeAnswers() {
-        onlineParticipants.forEach(onlineParticipant ->
-                onlineParticipant.hashResponses());
+        onlineParticipants.forEach(onlineVoter -> onlineVoter.hashResponses(questionsHash));
+        metadataHash = Hashing.sha256().hashString(
+                (
+                        houseId.toString() + postingDate.toString()
+                + voteStartDate.toString() + voteEndDate.toString()
+                ), StandardCharsets.UTF_8
+        ).toString();
+        onlineParticipantsHash = Hashing.sha256().hashString(
+                onlineParticipants.toString(), StandardCharsets.UTF_8
+        ).toString();
+        offlineParticipantsHash = Hashing.sha256().hashString(
+                offlineVoters.toString(), StandardCharsets.UTF_8
+        ).toString();
+        combinedParticipantsHash = Hashing.sha256().hashString(
+                onlineParticipantsHash + offlineParticipantsHash,
+                StandardCharsets.UTF_8
+        ).toString();
+
+    }
+
+    public void activateVote() {
+        questionsHash = Hashing.sha256().hashString(questionList.toString(), StandardCharsets.UTF_8).toString();
+        isCurrentlyUsed = true;
     }
 
     private static class VoteIsInUseException extends Exception {
