@@ -20,15 +20,17 @@
             <button title="Будет работать в будущем">soon</button>
         </div>
     </header>
-    
+    <p id="profileId"></p>
     <div class="main">
         <div class="questions">
             <ul type=none>
               <question-item
                 v-for="item in questionList"
                 v-bind:question="item"
-                v-bind:key="item.id"
-              ></question-item>
+                v-bind:key="item.id">
+                <button class="button_block" >Да</button>
+              <button class="button_block">Нет</button>
+              <button class="button_block">Воздержусь</button></question-item>
             </ul>
         </div>
         
