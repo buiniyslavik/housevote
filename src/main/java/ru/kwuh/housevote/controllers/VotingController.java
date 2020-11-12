@@ -61,7 +61,7 @@ public class VotingController {
     @GetMapping("/available")
     public Iterable<Vote> showAvailableVoting(Principal principal) {
         String currentUserEmail = principal.getName();
-        List<BigInteger> currentUserProperty = profileRepository.findUserByEmailAddress(currentUserEmail).getOwnedProperty();
+        List<String> currentUserProperty = profileRepository.findUserByEmailAddress(currentUserEmail).getOwnedProperty();
         return voteRepository.findByHouseIdIn(currentUserProperty);
     }
 
@@ -78,7 +78,7 @@ public class VotingController {
     }
 
     @DeleteMapping("/id/{voteId}")
-    public Vote deleteVote(@PathVariable(name = "voteId") BigInteger voteId) {
+    public Vote deleteVote(@PathVariable(name = "voteId") String voteId) {
         if(voteRepository.findById(voteId).isPresent()){
             Vote v = voteRepository.findById(voteId).get();
             voteRepository.delete(v);
@@ -91,14 +91,14 @@ public class VotingController {
 
 
     @GetMapping("/id/{voteId}")
-    public Iterable<Question> showVoteQuestions(@PathVariable(name = "voteId") BigInteger voteId) {
+    public Iterable<Question> showVoteQuestions(@PathVariable(name = "voteId") String voteId) {
         if (voteRepository.findById(voteId).isPresent())
             return voteRepository.findById(voteId).get().getQuestionList();
         else return null;
     }
 
     @PostMapping("/id/{voteId}/finish")
-    public Vote endVote(@PathVariable(name = "voteId") BigInteger voteId) {
+    public Vote endVote(@PathVariable(name = "voteId") String voteId) {
         if (voteRepository.findById(voteId).isPresent()) {
             Vote vote = voteRepository.findById(voteId).get();
             vote.finalizeAnswers();
@@ -110,7 +110,7 @@ public class VotingController {
 
     @PutMapping(value = "/id/{voteId}", consumes = "application/json")
     public Iterable<Response> respondToQuestion(
-            @PathVariable(name="voteId") BigInteger voteId,
+            @PathVariable(name="voteId") String voteId,
             @RequestBody Response response
     ) {
         Vote vote;

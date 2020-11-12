@@ -41,9 +41,9 @@ public class Profile {
 
     //    @DBRef(lazy = true)
     @JsonIgnore
-    List<BigInteger> ownedProperty;
+    List<String> ownedProperty;
 
-    public List<BigInteger> getOwnedProperty() {
+    public List<String> getOwnedProperty() {
         if (ownedProperty == null) {
             ownedProperty = new ArrayList<>();
         }
@@ -51,8 +51,8 @@ public class Profile {
     }
 
     public void addProperty(House house) throws House.DuplicateProfileException {
-        if (!getOwnedProperty().contains(new BigInteger(house.getId()))) {
-            ownedProperty.add(new BigInteger(house.getId()));
+        if (!getOwnedProperty().contains(house.getId())) {
+            ownedProperty.add(house.getId());
         } else throw new House.DuplicateProfileException();
     }
 }

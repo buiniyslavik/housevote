@@ -5,5 +5,5 @@ import ru.kwuh.housevote.entities.House;
 
 import java.math.BigInteger;
 
-public interface HouseRepository extends MongoRepository <House, BigInteger> {
+public interface HouseRepository extends MongoRepository <House, String> {
 }

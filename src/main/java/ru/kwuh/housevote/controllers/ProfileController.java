@@ -60,7 +60,7 @@ public class ProfileController {
     @GetMapping("/me/property")
     public Iterable<House> getMyProperty() {
         String currentEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        List<BigInteger> propIds = profileRepository.findUserByEmailAddress(currentEmail).getOwnedProperty();
+        List<String> propIds = profileRepository.findUserByEmailAddress(currentEmail).getOwnedProperty();
         return houseRepository.findAllById(propIds);
     }
 }
