@@ -17,19 +17,21 @@
         </div> 
         <div class="right_side_buttons">
             <button onclick='window.location.href = "index.html"'>Вернуться</button>
-            <button>soon</button>
         </div>
     </header>
     <div class="main">
         <div class="center">
-            <p>Добавление голосования</p>
-            <ul type=none>
-                <li>
-                    Дом (id): <input type="text" id="vote_house" value="">
-                    Вопрос: <input type="text" id="vote_message" value="">
-                    <button class="button_block" onclick="addVote()">Добавить</button>
-                </li>
-            </ul>
+            <div class="form">
+                <p class="title_text">Добавление голосования</p>
+                <br>
+                <ul type=none>
+                    <li>
+                        <input type="text" id="vote_house" placeholder="Дом (id)">
+                        <textarea placeholder="Вопрос..." rows="4" id="vote_message"></textarea>
+                        <button class="button_block" onclick="addVote()">Добавить</button>
+                    </li>
+                </ul>
+            </div>
         <div id="done"></div>
         </div>
     </div>

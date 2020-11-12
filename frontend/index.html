@@ -4,6 +4,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script><!-- Vue -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script><!-- axios -->
     <script src="js/scripts.js"></script>
+    <script src="js/chat.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Главная страница</title>
@@ -20,20 +21,22 @@
             <button title="Будет работать в будущем">soon</button>
         </div>
     </header>
-    
+    <p id="profileId"></p>
     <div class="main">
         <div class="questions">
             <ul type=none>
               <question-item
                 v-for="item in questionList"
                 v-bind:question="item"
-                v-bind:key="item.id"
-              ></question-item>
+                v-bind:key="item.id">
+                <button class="button_block" >Да</button>
+              <button class="button_block">Нет</button>
+              <button class="button_block">Воздержусь</button></question-item>
             </ul>
         </div>
         
         <div class="chat">
-            <div class="mes_scroll_container">
+            <div class="mes_scroll_container" id="scroll_container">
             <ul type = none>
                 <li>
                     <div class="message">
@@ -132,7 +135,6 @@
             </div>   
             <form action="" method="POST" class="input_message">
                 <textarea name="message" class="input_text"></textarea>
-                <!--<input type="submit" value="" class="send_message"></input>-->
 				<button type="button" class="send_message"></button>
             </form>
         </div>
