@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script><!-- axios -->
     <script src="js/admin.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Добавление дома</title>
+    <title>Регистрация</title>
 </head>
 <body>
     <header>
@@ -19,13 +19,16 @@
     <div class="main">
         <div class="center">
             <div class="form">
-                <p class="title_text">Добавление дома</p>
+                <p class="title_text">Регистрация</p>
                 <br>
                 <ul type=none>
                     <li>
-                        <input type="text" id="house_id" placeholder="Дом (id)">
-                        <input type="text" id="NHouseAddress" placeholder="Адресс дома">
-                        <button class="button_block" onclick="addHouse()">Добавить</button>
+                        <input type="text" id="NProfileEmail" placeholder="E-mail">
+                        <input type="password" id="NProfileRawPassword" placeholder="Пароль">
+                        <input type="text" id="NProfileFirstName" placeholder="Имя">
+                        <input type="text" id="NProfileLastName" placeholder="Фамилия">
+                        <input type="text" id="NProfilePaternal" placeholder="Отчество">
+                        <button class="button_block" style="width: 60%;" onclick="addProfile()">Регистрация</button>
                     </li>
                 </ul>
             </div>
