@@ -180,6 +180,7 @@ p{
     padding: 5px;
 }
 .send_message{
+    position: absolute;
     background-image: url(../icons/send.png);
     background-repeat: no-repeat;
     border: none;
