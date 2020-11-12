@@ -2,15 +2,13 @@ package ru.kwuh.housevote.controllers;
 
 import com.google.common.hash.Hashing;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.jni.Global;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import ru.kwuh.housevote.entities.*;
-import ru.kwuh.housevote.repository.FinalizedVoteRepository;
-import ru.kwuh.housevote.repository.HouseRepository;
-import ru.kwuh.housevote.repository.ProfileRepository;
-import ru.kwuh.housevote.repository.VoteRepository;
+import ru.kwuh.housevote.repository.*;
 
 import javax.validation.Valid;
 import java.math.BigInteger;
@@ -39,6 +37,9 @@ public class VotingController {
 
     @Autowired
     FinalizedVoteRepository finalizedVoteRepository;
+
+    @Autowired
+    GlobalsRepository globalsRepository;
 
     @GetMapping(value = {"/all", "/all/{page}"})
     public Iterable<Vote> showAllVoting(@PathVariable(name = "page", required = false) Integer pageNumber) {
@@ -119,17 +120,31 @@ public class VotingController {
         if (voteRepository.findById(voteId).isPresent()) {
             Vote vote = voteRepository.findById(voteId).get();
             vote.finalizeAnswers();
-
-            FinalizedVote lastVote = finalizedVoteRepository.findFinalizedVoteByIdIsLessThan(vote.getId());
-            if (lastVote != null) {
-                vote.setPrevBlockHash(lastVote.getVoteBodyHash());
+            Globals globals;
+            if (globalsRepository.findById("config").isPresent()) {
+                globals = globalsRepository.findById("config").get();
+                if (globals.getLastFinalizedVoteId() != null) {
+                    vote.setPrevBlockHash(finalizedVoteRepository
+                            .findById(globals.getLastFinalizedVoteId())
+                            .get()
+                            .getVoteBodyHash());
+                }
+                else {
+                    vote.setPrevBlockHash(Hashing.sha256().hashString("START", StandardCharsets.UTF_8).toString());
+                }
             } else {
                 vote.setPrevBlockHash(Hashing.sha256().hashString("START", StandardCharsets.UTF_8).toString());
+                globals = new Globals();
             }
 
-            voteRepository.save(vote);
+
             FinalizedVote finalizedVote = new FinalizedVote(vote);
-            return finalizedVoteRepository.save(finalizedVote);
+            voteRepository.delete(vote);
+
+            FinalizedVote finalizedVote1 = finalizedVoteRepository.save(finalizedVote);
+            globals.setLastFinalizedVoteId(finalizedVote1.getId());
+            globalsRepository.save(globals);
+            return finalizedVote1;
         }
         return null;
     }

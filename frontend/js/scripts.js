@@ -1,7 +1,7 @@
 //const server = 'http://127.0.0.1:8080';
-const server = 'api';
+const server = '/api';
 const votingPage = '/voting';
-const allVoteConnection = server + votingPage + '/all';
+const allVoteConnection = server + votingPage + '/available';
 const addAnswerConnection = server + votingPage + '/id/';
 
 
