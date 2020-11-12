@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="css/font.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script><!-- Vue -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script><!-- axios -->
+    <script src="js/admin.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+</head>
+<body>
+    <header>
+        <div class="header_title">
+            ГОЛОСОВАНИЕ | ЖКХ-чат (test)
+        </div> 
+    </header>
+    <div class="main">
+        <div class="center">
+            <div class="form">
+                <p class="title_text">Регистрация</p>
+                <br>
+                <ul type=none>
+                    <li>
+                        <input type="text" id="NProfileEmail" placeholder="E-mail">
+                        <input type="password" id="NProfileRawPassword" placeholder="Пароль">
+                        <input type="text" id="NProfileFirstName" placeholder="Имя">
+                        <input type="text" id="NProfileLastName" placeholder="Фамилия">
+                        <input type="text" id="NProfilePaternal" placeholder="Отчество">
+                        <button class="button_block" style="width: 60%;" onclick="addProfile()">Регистрация</button>
+                    </li>
+                </ul>
+            </div>
+        <div id="done"></div>
+        </div>
+    </div>
+    
+    <footer>
+        <div>
+            <p class="footer_text">Made by KWUH</p>
+        </div>
+    </footer>
+
+</body>
+</html>
