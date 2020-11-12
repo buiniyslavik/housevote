@@ -10,7 +10,15 @@ function addVote(){
                 "needsTwoThirds": false
             }
         ] 
-    });  
-    document.getElementById("done").innerHTML="Добавлено!";
-    setTimeout("window.location.href = 'index.html'", 1000);
+    });
+    show("done");
+    setTimeout("window.location.href = 'index.html'", 500);
  }
+
+ function show(element_id) {
+    if (document.getElementById(element_id)) { 
+        var element = document.getElementById(element_id);
+        element.style.display = 'inline-block';
+    }
+    else alert("Элемент с id: " + element_id + " не найден!"); 
+}   

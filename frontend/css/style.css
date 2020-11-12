@@ -231,6 +231,18 @@ textarea{
     overflow: auto;
 }
 
+#done{
+    margin-top: 3vh;
+    display: inline-block;
+    color: white;
+    background-color: #336699;
+    border: #336699 solid 2px;
+    border-radius: 20px;
+    padding: 1vh;
+    font: 18pt monospace;
+    display: none;
+}
+
 .title_text{
     font: 26pt monospace;
     color: #336699;
