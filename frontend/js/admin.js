@@ -19,6 +19,11 @@ window.onload = function () {
     getProfiles();
 }
 
+//may be replased to other js-file
+function goToRegistration(){
+    setTimeout("window.location.href = 'sign_up.html'", 10);
+}
+
 function addProfileToHouse(){
 
     axios.post(server + housePage + "/id/" + document.getElementById("PHouseId").value + "/adduser",
