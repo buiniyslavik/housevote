@@ -10,60 +10,83 @@
     <title>Admin-panel</title>
 </head>
 <body>
+    <div class="auth">
+        <a href="http://localhost:8080/profile/logout">aaa</a>
+        <form method="POST" action="http://localhost:8080/profile/login">
+            <input type="text" name="username" id="AUsername">
+            <input type="password" name="password" id="APassword">
+            <button type="submit">Войти</button>
+        </form>
+        
+    </div>
+    <div class="main">
+        <div class="houses threeGrid left border">
+            <p>Это все дома:</p>
+            <textarea>{{ info }}</textarea>
+        </div>
+    
+        <div class="profiles threeGrid left border">
+            <p>Это все пользователи:</p>
+            <textarea>{{ info }}</textarea>
+        </div>
+    
+        <div class="questions threeGrid left border">
+            <p>Это голосования:</p>
+            <textarea>{{ info }}</textarea>
+        </div>
+    
+        <div class="left threeGrid border">
+            <p>Создать профиль:</p>
+            Email: <input type="text" id="NProfileEmail"><br>
+            Пароль: <input type="text" id="NProfileRawPassword"><br>
+            Имя: <input type="text" id="NProfileFirstName"><br>
+            Фамилия: <input type="text" id="NProfileLastName"><br>
+            Отчество: <input type="text" id="NProfilePaternal"><br><br>
+            <button id="NProfileAddButton" onclick="addProfile()">Создать юзверя</button>
+        </div>
+    
+        <div class="left threeGrid border">
+            <p>Добавить дом:</p>
+            Адресс: <input type="text" id="NHouseAddress"><br><br>
+            <button id="NHouseAddButton" onclick="addHouse()">Добавить дом</button>
+        </div>
+    
+        <div class="left threeGrid border">
+            <p>Создать голосование:</p>
+            Дом (id): <input type="text" id="NVoteHouseId"><br>
+            Вопрос: <input type="text" id="NVoteQuestion"><br>
+            Нужно 2/3: <input type="checkbox" id="NVoteNeedsTwoThirds"><br><br>
+            <button id="NVoteAddButton" onclick="addVote()">Добавить голосование</button>
+        </div>
+    
+        <div class="left threeGrid border">
+            <p>Ответить на вопрос:</p>
+            Id голосования: <input type="text" id = "NQuestVoteId"><br> 
+            Id профиля: <input type="text" id="NQuestUserId"><br>
+            Номер вопроса: <input type="text" value=0 id="NQuestQuestNumber"><br>
+            Ответ:<br>
+            <button onclick="addAnswer('YES')">Да</button><br>
+            <button onclick="addAnswer('NO')">Нет</button><br>
+            <button onclick="addAnswer('ABSTAINED')">Воздержусь</button>
+        </div>
+        
+        <div class="left threeGrid border">
+            <p>Удалить голосование</p>
+            <input type="text" id = "DVote">
+            <button id="DVoteDelButton" onclick="deleteVote()">Удалить</button>
+        </div>
 
-    <div class="houses threeGrid left border">
-        <p>Это все дома:</p>
-        <textarea>{{ info }}</textarea>
-    </div>
+        <div class="left threeGrid border">
+            <p>Привязать пользователя к дому</p>
+            Id дома <input type="text" id="PHouseId"><br>
+            Id профиля <input type="text" id="ProfileID"><br>
+            <button id="PAddProfileToHouse" onclick="addProfileToHouse()">Привязать</button>
+        </div>
 
-    <div class="profiles threeGrid left border">
-        <p>Это все пользователи:</p>
-        <textarea>{{ info }}</textarea>
+        <div class="errors">
+            <textarea id="errorArea">энто ошибки:&#13;&#10;</textarea>
+        </div>
     </div>
-
-    <div class="questions threeGrid left border">
-        <p>Это голосования:</p>
-        <textarea>{{ info }}</textarea>
-    </div>
-
-    <div class="left threeGrid border">
-        <p>Создать профиль:</p>
-        Email: <input type="text" id="NProfileEmail"><br>
-        Пароль: <input type="text" id="NProfileRawPassword"><br>
-        Имя: <input type="text" id="NProfileFirstName"><br>
-        Фамилия: <input type="text" id="NProfileLastName"><br>
-        Отчество: <input type="text" id="NProfilePaternal"><br><br>
-        <button id="NProfileAddButton" onclick="addProfile()">Создать юзверя</button>
-    </div>
-
-    <div class="left threeGrid border">
-        <p>Добавить дом:</p>
-        Адресс: <input type="text" id="NHouseAddress"><br><br>
-        <button id="NHouseAddButton" onclick="addHouse()">Добавить дом</button>
-    </div>
-
-    <div class="left threeGrid border">
-        <p>Создать голосование:</p>
-        Дом (id): <input type="text" id="NVoteHouseId"><br>
-        Вопрос: <input type="text" id="NVoteQuestion"><br>
-        Нужно 2/3: <input type="checkbox" id="NVoteNeedsTwoThirds"><br><br>
-        <button id="NVoteAddButton" onclick="addVote()">Добавить голосование</button>
-    </div>
-
-    <div class="left threeGrid border">
-        <p>Ответить на вопрос:</p>
-        Id голосования: <input type="text" id = "NQuestVoteId"><br> 
-        Id профиля: <input type="text" id="NQuestUserId"><br>
-        Номер вопроса: <input type="text" value=0 id="NQuestQuestNumber"><br>
-        Ответ:<br>
-        <button onclick="addAnswer('YES')">Да</button><br>
-        <button onclick="addAnswer('NO')">Нет</button><br>
-        <button onclick="addAnswer('ABSTAINED')">Воздержусь</button>
-    </div>
-    <div class="left threeGrid border">
-        <p>Удалить голосование</p>
-        <input type="text" id = "DVote">
-        <button id="DVoteDelButton" onclick="deleteVote()">Удалить</button>
-    </div>
+   
 </body>
 </html>
