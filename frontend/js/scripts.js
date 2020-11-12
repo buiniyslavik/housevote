@@ -1,24 +1,28 @@
-//const server = 'http://127.0.0.1:8080';
-const server = 'api';
-const votingPage = '/voting';
-const allVoteConnection = server + votingPage + '/all';
-const addAnswerConnection = server + votingPage + '/id/';
-
-
+//const addVoteConnection = 'http://127.0.0.1:8080/voting/all';
+const addVoteConnection = 'api/voting/all';
 function addVoteRedirect(){
     window.location.href = "addVote.html";
 }
 
+function scrollChat(){
+    var block = document.getElementById("scroll_container");
+    block.scrollTop = block.scrollHeight;
+}
+
 window.onload = function () {
-    getUserId();
-    getQuestions();
-}
+    Vue.component('question-item', {
+        props: ['question'],
+        template: 
+        '<li>'+
+            '<div class="question">'+
+                '<p class="question_text">{{ question.questionList[0].questionText }}</p>'+
+                '<button class="button_block">Да</button>'+
+                '<button class="button_block">Нет</button>'+
+                '<button class="button_block">Воздержусь</button>'+
+            '</div>'+
+        '</li>'
+      });
 
-function getUserId(){
-    axios.get(server + "/profile/me").then(response =>{profile = response.data.id});
-}
-
-function getQuestions(){
     var questionList = new Vue({
         el: '.questions',
         data() {
@@ -27,39 +31,9 @@ function getQuestions(){
             };
         },
         mounted(){
-            axios.get(allVoteConnection).then(response =>(this.questionList = response.data));
-        }
-        
-    });
-    Vue.component('question-item', {
-        props: ['question'],
-        template: 
-        '<li>'+
-            '<div class="question">'+
-                '<p class="question_text">{{ question.questionList[0].questionText }}</p>'+
-                `<button class="button_block" v-on:click="addAnswer('YES', question.id)">Да</button>`+
-                `<button class="button_block" v-on:click="addAnswer('NO', question.id)">Нет</button>`+
-                `<button class="button_block" v-on:click="addAnswer('ABSTAINED', question.id)">Воздержусь</button>`+
-            '</div>'+
-        '</li>',
-        methods:{
-            addAnswer: function(answer, questionId){
-                if(profile == null){
-                    alert('Вы не авторизованны');
-                }else{
-                    axios.put(addAnswerConnection + questionId, {
-                        "profileId": profile,
-                        "questionNumber": 0,
-                        "answer": answer
-                    });
-                } 
-            }
+            axios.get(addVoteConnection).then(response =>(this.questionList = response.data));
         }
     });
-    /*
-    `<button class="button_block" v-on:click="addAnswer('YES', question.id)">Да</button>`+
-                `<button class="button_block" v-on:click="addAnswer('NO', question.id)">Нет</button>`+
-                `<button class="button_block" v-on:click="addAnswer('ABSTAINED', question.id)">Воздержусь</button>`+
-    */
-   
+
+    scrollChat();
 }
