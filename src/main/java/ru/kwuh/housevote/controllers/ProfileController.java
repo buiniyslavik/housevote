@@ -17,7 +17,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/profile", produces = "application/json")
+@RequestMapping(path = "/profile", produces = "application/json;charset=UTF-8")
 public class ProfileController {
     @Autowired
     ProfileRepository profileRepository;

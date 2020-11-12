@@ -23,7 +23,7 @@ public class HouseController {
     @Autowired
     ProfileRepository profileRepository;
 
-    @PostMapping(path = "/add", consumes = "application/json")
+    @PostMapping(path = "/add", consumes = "application/json;charset=UTF-8")
     public House addHouse(@RequestBody @Valid House house) {
 //        House house1 = house;
         return houseRepository.save(house);

@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 //@CrossOrigin("*")
-@RequestMapping(path = "/voting", produces = "application/json")
+@RequestMapping(path = "/voting", produces = "application/json;charset=UTF-8")
 public class VotingController {
 
     @Autowired

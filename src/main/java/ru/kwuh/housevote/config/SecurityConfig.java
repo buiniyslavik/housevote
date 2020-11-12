@@ -34,11 +34,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         security
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/profile/create")
+                .antMatchers("/profile/create", "/profile/login")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
-                .and().httpBasic()
+                .and().formLogin()
+                .loginPage("/profile/login")
+                .loginProcessingUrl("/profile/login")
+                .defaultSuccessUrl("/profile/me", true)
+                .and().logout()
+                .logoutUrl("/profile/logout")
+                .deleteCookies("JSESSIONID");
+           /*     .and().httpBasic()
                 .and().sessionManagement().disable();
+
+            */
     }
 }
