@@ -13,5 +13,5 @@ public class Question {
     @NotNull
     final boolean needsTwoThirds;
 
-    enum Answers {YES, NO, ABSTAINED}
+    public enum Answers {YES, NO, ABSTAINED}
 }

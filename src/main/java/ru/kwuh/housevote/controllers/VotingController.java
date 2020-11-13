@@ -184,4 +184,45 @@ public class VotingController {
         voteRepository.save(vote);
         return currentVoter.getResponses();
     }
+
+    @GetMapping("/results/id/{voteId}")
+    public Object getVoteResults(@PathVariable(name = "voteId") String voteId) {
+        if (finalizedVoteRepository.findById(voteId).isPresent()) {
+            FinalizedVote finalizedVote = finalizedVoteRepository.findById(voteId).get();
+            Vote vote = finalizedVote.getVote();
+            List<Question> questions = vote.getQuestionList();
+            List<OnlineVoter> onlineVoters = vote.getOnlineParticipants();
+            List<ResponseCounter> rc = new ArrayList<>();
+            // indian mode on
+            for (int currentQuestion = 0; currentQuestion < questions.size(); currentQuestion++) {
+                rc.add(new ResponseCounter());
+                for (int currentVoter = 0; currentVoter < onlineVoters.size(); currentVoter++) {
+                    for (
+                            int currentResp = 0;
+                            currentResp < onlineVoters
+                                    .get(currentVoter)
+                                    .getResponses()
+                                    .size();
+                            currentResp++) {
+                        Response resp = onlineVoters.get(currentVoter).getResponses().get(currentResp);
+                        if (resp.getQuestionNumber() != currentQuestion)
+                            continue;
+                        else {
+
+                            if (resp.getAnswer().equals(Question.Answers.YES))
+                                rc.get(currentQuestion).yes++;
+                            if (resp.getAnswer().equals(Question.Answers.NO))
+                                rc.get(currentQuestion).no++;
+                            if (resp.getAnswer().equals(Question.Answers.ABSTAINED))
+                                rc.get(currentQuestion).abstained++;
+
+                        }
+                    }
+                }
+            }
+            return rc;
+        }
+
+        return null;
+    }
 }

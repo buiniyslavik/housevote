@@ -11,5 +11,5 @@ public class Response {
     String profileId;
     @NotNull
     int questionNumber;
-    Question.Answers answer;
+    public Question.Answers answer;
 }
