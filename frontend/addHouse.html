@@ -4,16 +4,21 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/style.css">
     <link href="css/font.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script><!-- Vue -->
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script><!-- axios -->
-    <script src="js/admin.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Добавление дома</title>
+    <title>Добавление дома(hacker)</title>
 </head>
+<script>
+    function addHouseFAIK(){
+        var pic = document.createElement("IMG");
+        pic.src = "https://sun9-29.userapi.com/3iv6JaYb5sxOPAPBxE9FpkLK0O9gFozxbfq3aw/zaJ-MtLuG7I.jpg";
+        document.getElementById("house_id").appendChild(pic);
+    }
+</script>
+
 <body>
     <header>
         <div class="header_title">
-            ГОЛОСОВАНИЕ | ЖКХ-чат
+            ДОБАВИТЬ ДОМ | ДОМ
         </div> 
     </header>
     <div class="main">
@@ -23,9 +28,10 @@
                 <br>
                 <ul type=none>
                     <li>
-                        <input type="text" id="house_id" placeholder="Дом (id)">
+                        <input type="text" placeholder="Дом (id)">
+                        <div id="house_id"></div>
                         <input type="text" id="NHouseAddress" placeholder="Адресс дома">
-                        <button class="button_block" onclick="addHouse()">Добавить</button>
+                        <button class="button_block" onclick="addHouseFAIK()">Добавить</button>
                     </li>
                 </ul>
             </div>
@@ -40,4 +46,5 @@
     </footer>
 
 </body>
+
 </html>
