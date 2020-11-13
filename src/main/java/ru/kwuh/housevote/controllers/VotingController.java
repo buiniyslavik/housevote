@@ -153,7 +153,7 @@ public class VotingController {
     public Iterable<Response> respondToQuestion(
             @PathVariable(name = "voteId") String voteId,
             @RequestBody Response response
-    ) {
+    ) throws Exception {
         Vote vote;
         if (voteRepository.findById(voteId).isPresent())
             vote = voteRepository.findById(voteId).get();
@@ -168,7 +168,11 @@ public class VotingController {
         } catch (NoSuchElementException nsex) {
             return null;
         }
-        currentVoter.getResponses().add(response);
+        List<Response> responses = currentVoter.getResponses();
+        if(!responses.contains(response)) {
+            responses.add(response);
+        }
+        else throw new Exception("Already voted for this question!");
         voteRepository.save(vote);
         return currentVoter.getResponses();
     }
