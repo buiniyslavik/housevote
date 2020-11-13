@@ -49,7 +49,7 @@ public class VotingController {
         return voteRepository.findAll(page).getContent();
     }
 
-    @GetMapping(value = {"/finished/all", "/finished/all/{page}"})
+    @GetMapping(value = {"/results/all", "/results/all/{page}"})
     public Iterable<FinalizedVote> showAllFinalizedVotes(@PathVariable(name = "page", required = false) Integer pageNumber) {
         PageRequest page;
         if (pageNumber != null)
@@ -107,6 +107,12 @@ public class VotingController {
 
     // -------------------------------------------------
 
+    @GetMapping("/results/id/{voteId}")
+    public FinalizedVote showCompletedVote(@PathVariable(name = "voteId") String voteId) {
+        if (finalizedVoteRepository.findById(voteId).isPresent())
+            return finalizedVoteRepository.findById(voteId).get();
+        else return null;
+    }
 
     @GetMapping("/id/{voteId}")
     public Iterable<Question> showVoteQuestions(@PathVariable(name = "voteId") String voteId) {
@@ -185,7 +191,7 @@ public class VotingController {
         return currentVoter.getResponses();
     }
 
-    @GetMapping("/results/id/{voteId}")
+    @GetMapping("/results/report/id/{voteId}")
     public Object getVoteResults(@PathVariable(name = "voteId") String voteId) {
         if (finalizedVoteRepository.findById(voteId).isPresent()) {
             FinalizedVote finalizedVote = finalizedVoteRepository.findById(voteId).get();
@@ -195,7 +201,7 @@ public class VotingController {
             List<ResponseCounter> rc = new ArrayList<>();
             // indian mode on
             for (int currentQuestion = 0; currentQuestion < questions.size(); currentQuestion++) {
-                rc.add(new ResponseCounter());
+                rc.add(new ResponseCounter(currentQuestion));
                 for (int currentVoter = 0; currentVoter < onlineVoters.size(); currentVoter++) {
                     for (
                             int currentResp = 0;
@@ -220,6 +226,13 @@ public class VotingController {
                     }
                 }
             }
+            Integer totalVoters = onlineVoters.size();
+            rc.forEach(responseCounter -> {
+                if(responseCounter.yes > totalVoters/2)
+                    responseCounter.setHasPassed(true);
+                if(responseCounter.no > totalVoters/2)
+                    responseCounter.setHasPassed(false);
+            });
             return rc;
         }
 
