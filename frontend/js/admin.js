@@ -5,6 +5,7 @@ const votingPage = '/voting';
 const housePage = '/house';
 const profilePage = '/profile';
 const votingAllConnection = server + votingPage + '/all';
+const votingAllFinishedConnection = server + votingPage + '/finished' + '/all';
 const houseAllConnection = server + housePage + '/all';
 const profileAllConnection = server + profilePage +'/all';
 const addProfileConnection = server + profilePage + '/create';
@@ -15,6 +16,7 @@ const addHouseConnection = server + housePage + '/add';
 
 window.onload = function () {
     getQuestions();
+    getFinishedQuestions();
     getHouses();
     getProfiles();
 }
@@ -205,6 +207,28 @@ function getQuestions(){
         }
     });
 }
+function getFinishedQuestions(){
+    var questionList = new Vue({
+        el: '.finQuestions',
+        data() {
+            return{
+                info: null
+            };
+        },
+        mounted(){
+            axios.get(votingAllFinishedConnection).then(response =>(this.info = response.data))
+                .catch(function(error){
+                    if(error.response.status == 404){
+                        document.getElementById("errorArea").innerHTML += "\n" +"[404], либо серв не запущен, либо надо поменять ip серва";
+                    }if(error.response.status == 401){
+                        document.getElementById("errorArea").innerHTML += "\n" +"[401], Авторизуйся";
+                    }else{
+                        document.getElementById("errorArea").innerHTML += error;
+                    }
+                });
+        }
+    });
+}
 
 function getProfiles(){
     var questionList = new Vue({
@@ -227,4 +251,19 @@ function getProfiles(){
             });
         }
     });
+}
+
+function finishVote() {
+    axios.put(addAnswerConnection + document.getElementById("FinVoteId").value + "/finish",
+        ).catch(function(error){
+        if(error.response.status == 404){
+            document.getElementById("errorArea").innerHTML += "\n" +"[404], либо серв не запущен, либо надо поменять ip серва";
+        }if(error.response.status == 401){
+            document.getElementById("errorArea").innerHTML += "\n" +"[401], Авторизуйся";
+        }else{
+            document.getElementById("errorArea").innerHTML += error;
+        }
+    });
+    setTimeout("location.reload()",2000);
+
 }

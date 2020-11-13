@@ -51,6 +51,16 @@ public class VotingController {
         return voteRepository.findAll(page).getContent();
     }
 
+    @GetMapping(value = {"/finished/all", "/finished/all/{page}"})
+    public Iterable<FinalizedVote> showAllFinalizedVotes(@PathVariable(name = "page", required = false) Integer pageNumber) {
+        PageRequest page;
+        if (pageNumber != null)
+            page = PageRequest.of(pageNumber, 25, Sort.by("postingDate").descending());
+        else
+            page = PageRequest.of(0, 25, Sort.by("postingDate").descending());
+        return finalizedVoteRepository.findAll(page).getContent();
+    }
+
     @GetMapping(value = {"/all/current", "/all/current/{page}"})
     public Iterable<Vote> showCurrentVoting(@PathVariable(name = "page", required = false) Integer pageNumber) {
         PageRequest page;

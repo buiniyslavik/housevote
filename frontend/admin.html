@@ -30,10 +30,15 @@
         </div>
     
         <div class="questions threeGrid left border">
-            <p>Это голосования:</p>
+            <p>Это текущие голосования:</p>
             <textarea>{{ info }}</textarea>
         </div>
-    
+
+        <div class="finQuestions threeGrid left border">
+            <p>Это завершенные голосования:</p>
+            <textarea>{{ info }}</textarea>
+        </div>
+
         <div class="left threeGrid border">
             <p>Создать профиль:</p>
             Email: <input type="text" id="NProfileEmail"><br>
@@ -80,6 +85,12 @@
             Id дома <input type="text" id="PHouseId"><br>
             Id профиля <input type="text" id="ProfileID"><br>
             <button id="PAddProfileToHouse" onclick="addProfileToHouse()">Привязать</button>
+        </div>
+
+        <div class="left threeGrid border">
+            <p>Завершить голосование</p>
+            <input type="text" id = "FinVoteId">
+            <button id="VFinishVote" onclick="finishVote()">Завершить</button>
         </div>
 
         <div class="errors">
