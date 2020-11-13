@@ -1,5 +1,6 @@
 package ru.kwuh.housevote.controllers;
 
+import com.google.common.collect.Lists;
 import com.google.common.hash.Hashing;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.jni.Global;
@@ -14,10 +15,7 @@ import javax.validation.Valid;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -79,7 +77,9 @@ public class VotingController {
     public Iterable<Vote> showAvailableVoting(Principal principal) {
         String currentUserEmail = principal.getName();
         List<String> currentUserProperty = profileRepository.findUserByEmailAddress(currentUserEmail).getOwnedProperty();
-        return voteRepository.findByHouseIdIn(currentUserProperty);
+        List<Vote> availableVotes = Lists.newArrayList(voteRepository.findByHouseIdIn(currentUserProperty))
+                .stream().filter(Vote::isCurrentlyUsed).collect(Collectors.toList());
+        return availableVotes;
     }
 
     @PostMapping(value = "/add", consumes = "application/json")
