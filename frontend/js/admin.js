@@ -1,17 +1,17 @@
 //const server = 'http://127.0.0.1:8080';
 const server = '/api';
 
-const votingPage = '/voting';
-const housePage = '/house';
-const profilePage = '/profile';
-const votingAllConnection = server + votingPage + '/all';
-const votingAllFinishedConnection = server + votingPage + '/finished' + '/all';
-const houseAllConnection = server + housePage + '/all';
-const profileAllConnection = server + profilePage +'/all';
-const addProfileConnection = server + profilePage + '/create';
-const addVoteConnection = server + votingPage + '/add';
+const votingPage = '/voting/';
+const housePage = '/house/';
+const profilePage = '/profile/';
+const votingAllConnection = server + votingPage + '/all/';
+const votingAllFinishedConnection = server + votingPage + '/finished' + '/all/';
+const houseAllConnection = server + housePage + '/all/';
+const profileAllConnection = server + profilePage +'/all/';
+const addProfileConnection = server + profilePage + '/create/';
+const addVoteConnection = server + votingPage + '/add/';
 const addAnswerConnection = server + votingPage + '/id/';
-const addHouseConnection = server + housePage + '/add';
+const addHouseConnection = server + housePage + '/add/';
 
 
 window.onload = function () {
@@ -28,7 +28,7 @@ function goToRegistration(){
 
 function addProfileToHouse(){
 
-    axios.post(server + housePage + "/id/" + document.getElementById("PHouseId").value + "/adduser",
+    axios.post(server + housePage + "/id/" + document.getElementById("PHouseId").value + "/adduser/",
     document.getElementById("ProfileID").value,
     {headers: { 'Content-Type': 'text/plain' }})
     .catch(function(error){
@@ -48,7 +48,7 @@ function auth(){
     var bodyFormData = new FormData();
     bodyFormData.append('username', document.getElementById('AUsername').value);
     bodyFormData.append('password', document.getElementById('APassword').value);
-    axios.post(server + '/profile/login', bodyFormData, {
+    axios.post(server + '/profile/login/', bodyFormData, {
         headers: {'Content-Type': 'multipart/form-data' }
         }).catch(function(error){
             if(error.response.status == 404){
@@ -254,7 +254,7 @@ function getProfiles(){
 }
 
 function finishVote() {
-    axios.put(addAnswerConnection + document.getElementById("FinVoteId").value + "/finish",
+    axios.put(addAnswerConnection + document.getElementById("FinVoteId").value + "/finish/",
         ).catch(function(error){
         if(error.response.status == 404){
             document.getElementById("errorArea").innerHTML += "\n" +"[404], либо серв не запущен, либо надо поменять ip серва";

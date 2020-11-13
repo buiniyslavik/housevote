@@ -138,8 +138,7 @@ public class VotingController {
                             .findById(globals.getLastFinalizedVoteId())
                             .get()
                             .getVoteBodyHash());
-                }
-                else {
+                } else {
                     vote.setPrevBlockHash(Hashing.sha256().hashString("START", StandardCharsets.UTF_8).toString());
                 }
             } else {
@@ -179,10 +178,9 @@ public class VotingController {
             return null;
         }
 
-        if(!currentVoter.getResponses().contains(response)) {
+        if (!currentVoter.getResponses().contains(response)) {
             currentVoter.getResponses().add(response);
-        }
-        else throw new Exception("Already voted for this question!");
+        } else throw new Exception("Already voted for this question!");
         voteRepository.save(vote);
         return currentVoter.getResponses();
     }
