@@ -1,6 +1,7 @@
 //const server = 'http://127.0.0.1:8080';
-profile = null;
 const server = '/api';
+
+profile = null;
 const votingPage = '/voting';
 const allVoteConnection = server + votingPage + '/available';
 const addAnswerConnection = server + votingPage + '/id/';
@@ -63,4 +64,8 @@ function getQuestions(){
             }
         }
     });
+}
+
+function goToAdmin(){
+    setTimeout("window.location.href = 'admin.html'", 10);
 }

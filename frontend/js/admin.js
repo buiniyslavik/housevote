@@ -4,14 +4,14 @@ const server = '/api';
 const votingPage = '/voting/';
 const housePage = '/house/';
 const profilePage = '/profile/';
-const votingAllConnection = server + votingPage + '/all/';
-const votingAllFinishedConnection = server + votingPage + '/finished' + '/all/';
-const houseAllConnection = server + housePage + '/all/';
-const profileAllConnection = server + profilePage +'/all/';
-const addProfileConnection = server + profilePage + '/create/';
-const addVoteConnection = server + votingPage + '/add/';
-const addAnswerConnection = server + votingPage + '/id/';
-const addHouseConnection = server + housePage + '/add/';
+const votingAllConnection = server + votingPage + 'all/';
+const votingAllFinishedConnection = server + votingPage + 'finished' + '/all/';
+const houseAllConnection = server + housePage + 'all/';
+const profileAllConnection = server + profilePage +'all/';
+const addProfileConnection = server + profilePage + 'create/';
+const addVoteConnection = server + votingPage + 'add/';
+const addAnswerConnection = server + votingPage + 'id/';
+const addHouseConnection = server + housePage + 'add/';
 
 
 window.onload = function () {
@@ -28,7 +28,7 @@ function goToRegistration(){
 
 function addProfileToHouse(){
 
-    axios.post(server + housePage + "/id/" + document.getElementById("PHouseId").value + "/adduser/",
+    axios.post(server + housePage + "id/" + document.getElementById("PHouseId").value + "/adduser/",
     document.getElementById("ProfileID").value,
     {headers: { 'Content-Type': 'text/plain' }})
     .catch(function(error){
@@ -48,7 +48,7 @@ function auth(){
     var bodyFormData = new FormData();
     bodyFormData.append('username', document.getElementById('AUsername').value);
     bodyFormData.append('password', document.getElementById('APassword').value);
-    axios.post(server + '/profile/login/', bodyFormData, {
+    axios.post(server + profilePage +'login/', bodyFormData, {
         headers: {'Content-Type': 'multipart/form-data' }
         }).catch(function(error){
             if(error.response.status == 404){
@@ -59,7 +59,7 @@ function auth(){
                 document.getElementById("errorArea").innerHTML += error;
             }
         });
-        setTimeout("window.location.href = 'index.html'", 10);//goto main page
+        goToMain();//goto main page
 
 }
 
@@ -102,8 +102,12 @@ function addProfile(){
             document.getElementById("errorArea").innerHTML += error;
         }
     });
-    document.getElementById("NProfileAddButton").innerHTML = "Создано, возможно";
-    setTimeout("location.reload()",2000);
+    //document.getElementById("NProfileAddButton").innerHTML = "Создано, возможно";
+    goToMain();
+}
+
+function goToMain(){
+    setTimeout("window.location.href = 'index.html'", 10);//goto main page
 }
 
 function addHouse(){
@@ -120,7 +124,7 @@ function addHouse(){
     });  
     document.getElementById("NHouseAddButton").innerHTML = "Добавлено, возможно";
     setTimeout("location.reload()",2000);
- }
+}
 
 function addVote(){
     needsTwoThirds = document.getElementById("NVoteNeedsTwoThirds").checked;
@@ -144,9 +148,9 @@ function addVote(){
     });  
     document.getElementById("NVoteAddButton").innerHTML = "Создано, возможно";
     setTimeout("location.reload()",2000);
- }
+}
 
- function activateVote(){
+function activateVote(){
     axios.put(addAnswerConnection + document.getElementById("ActVoteId").value + "/activate/",
         {
         }).catch(function(error){
@@ -162,7 +166,7 @@ function addVote(){
 }
 
 function deleteVote(){
-    axios.delete(server + votingPage + "/id/" + document.getElementById("DVote").value+"/")
+    axios.delete(server + votingPage + "id/" + document.getElementById("DVote").value+"/")
     .catch(function(error){
         if(error.response.status == 404){
             document.getElementById("errorArea").innerHTML += "\n" +"[404], либо серв не запущен, либо надо поменять ip серва";
@@ -269,7 +273,7 @@ function getProfiles(){
 }
 
 function finishVote() {
-    axios.put(addAnswerConnection + document.getElementById("FinVoteId").value + "/finish/",
+    axios.post(addAnswerConnection + document.getElementById("FinVoteId").value + "/finish/",
         ).catch(function(error){
         if(error.response.status == 404){
             document.getElementById("errorArea").innerHTML += "\n" +"[404], либо серв не запущен, либо надо поменять ip серва";
