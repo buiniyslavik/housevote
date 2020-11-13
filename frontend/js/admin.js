@@ -146,6 +146,21 @@ function addVote(){
     setTimeout("location.reload()",2000);
  }
 
+ function activateVote(){
+    axios.put(addAnswerConnection + document.getElementById("ActVoteId").value + "/activate/",
+        {
+        }).catch(function(error){
+        if(error.response.status == 404){
+            document.getElementById("errorArea").innerHTML += "\n" +"[404], либо серв не запущен, либо надо поменять ip серва";
+        }if(error.response.status == 401){
+            document.getElementById("errorArea").innerHTML += "\n" +"[401], Авторизуйся";
+        }else{
+            document.getElementById("errorArea").innerHTML += error;
+        }
+    });
+    setTimeout("location.reload()",2000);
+}
+
 function deleteVote(){
     axios.delete(server + votingPage + "/id/" + document.getElementById("DVote").value+"/")
     .catch(function(error){
