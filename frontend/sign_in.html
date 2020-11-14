@@ -24,9 +24,9 @@
                 <ul type=none>
                     <li>
                         <form name='f' action="/api/profile/login" method='POST'>
-                            <input type="text" id="AUsername" placeholder="Логин">
-                            <input type="password" id="APassword" placeholder="Пароль">
-                            <button class="button_block" style="width: 60%;" >Войти</button>
+                            <input type="text" name='username' id="AUsername" placeholder="Логин">
+                            <input type="password" name='password' id="APassword" placeholder="Пароль">
+                            <button class="button_block" style="width: 60%;" name="submit" type="submit" value="submit">Войти</button>
                             <button class="button_block" style="width: 60%;" onclick="goToRegistration()    ">Регистрация</button>
                         </form>
                     </li>
