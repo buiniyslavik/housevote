@@ -19,3 +19,15 @@ function sendMessage(){
     
     scrollChat();
 }
+
+document.addEventListener('keydown', function(event){
+    if(event.shiftKey&&event.code == 'Enter'){
+        return;
+    }
+     if(event.code == 'Enter'){
+         if(document.getElementById("message").value != ''){
+            sendMessage();
+            document.getElementById("message").blur();
+            }
+        }
+    });
