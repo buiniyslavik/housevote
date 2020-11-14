@@ -59,7 +59,7 @@ function auth(){
                 document.getElementById("errorArea").innerHTML += error;
             }
         });
-        goToMain();//goto main page
+        goToLogin();//goto main page
 
 }
 
@@ -103,11 +103,11 @@ function addProfile(){
         }
     });
     //document.getElementById("NProfileAddButton").innerHTML = "Создано, возможно";
-    goToMain();
+    goToLogin();
 }
 
-function goToMain(){
-    setTimeout("window.location.href = 'index.html'", 10);//goto main page
+function goToLogin(){
+    setTimeout("window.location.href = 'sign_in.html'", 10);//goto main page
 }
 
 function addHouse(){
