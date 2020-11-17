@@ -1,6 +1,7 @@
 const server = '/api';
 
 profile = null;
+isAuth = false;
 const votingPage = '/voting';
 const allVoteConnection = server + votingPage + '/available';
 const addAnswerConnection = server + votingPage + '/id/';
@@ -15,18 +16,28 @@ function scrollChat(){
     block.scrollTop = block.scrollHeight;
 }
 
-window.onload = function () {
-    getUserId();
-    getQuestions();
-    getAllChatMessages();
-    setTimeout("scrollChat()", 1000);
+window.onload = async function () {
+    await getUserId();
+    if(isAuth == true){
+        getQuestions();
+        getAllChatMessages();
+        setTimeout("scrollChat()", 1000);
+    }else{
+        window.location.href = "sign_in.html";
+    }
 }
 
-function getUserId(){
-    axios.get(server + "/profile/me").then(response =>{
-        console.log(response);
-        profile = response.data;
+async function getUserId(){
+    await axios.get(server + "/profile/me").then(function(response) {
+        if(response.headers['content-type'] == 'text/html;charset=UTF-8'){
+            isAuth = false;
+        }else{
+            profile = response.data;
+            isAuth = true;
+        }
     });
+    return isAuth;
+    //alert profile === null ? true : false;
 }
 
 function getQuestions(){
@@ -38,7 +49,20 @@ function getQuestions(){
             };
         },
         mounted(){
-            axios.get(allVoteConnection).then(response =>(this.questionList = response.data));
+            axios.get(allVoteConnection).then(response => {
+                this.questionList = response.data;
+                if(response.data.length == 0){
+                    domQuest = document.getElementsByClassName("questions")[0].children[0];
+                    domQuest.innerHTML = 
+                    "<li>"+
+                        "<div class='question'>"+
+                            "<p class='question_text'>"+
+                                "Новых голосований пока нет"+
+                            "</p>"+
+                        "</div>"+
+                    "</li>";
+                }
+            });
         }
         
     });

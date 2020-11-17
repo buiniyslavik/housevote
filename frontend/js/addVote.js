@@ -11,7 +11,7 @@ function addVote(){
         ] 
     });
     show("done");
-    setTimeout("window.location.href = 'index.html'", 500);
+    setTimeout("window.location.href = 'votingPage.html'", 500);
  }
 
  function show(element_id) {
