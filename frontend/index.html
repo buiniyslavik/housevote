@@ -21,7 +21,6 @@
             <button onclick='goToAdmin()' title="Настройки">options</button>
         </div>
     </header>
-    <p id="profileId"></p>
     <div class="main">
         <div class="questions">
             <ul type=none>
@@ -37,10 +36,15 @@
         
         <div class="chat">
             <div class="mes_scroll_container" id="scroll_container">
-            <ul id="chatList" type=none>
-                
-                
-            </ul>
+                <div class="chatMessages">
+                    <ul id="chatList" type=none>
+                        <message-item
+                        v-for="item in chatMessages"
+                        v-bind:message="item"
+                        v-bind:key="item.id">
+                        </message-item>
+                    </ul>
+                </div>
             </div>   
             <form action="" method="POST" class="input_message">
                 <textarea name="message" id="message" class="input_text"></textarea>

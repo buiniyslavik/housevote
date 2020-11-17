@@ -1,11 +1,10 @@
-//const server = 'http://127.0.0.1:8080';
 const server = '/api';
 
 const votingPage = '/voting/';
 const housePage = '/house/';
 const profilePage = '/profile/';
 const votingAllConnection = server + votingPage + 'all/';
-const votingAllFinishedConnection = server + votingPage + 'finished' + '/all/';
+const votingAllFinishedConnection = server + votingPage + 'results' + '/all/';
 const houseAllConnection = server + housePage + 'all/';
 const profileAllConnection = server + profilePage +'all/';
 const addProfileConnection = server + profilePage + 'create/';
@@ -107,7 +106,7 @@ function addProfile(){
 }
 
 function goToLogin(){
-    setTimeout("window.location.href = 'sign_in.html'", 10);//goto main page
+    setTimeout("window.location.href = 'sign_in.html'", 10);//goto login page
 }
 
 function addHouse(){

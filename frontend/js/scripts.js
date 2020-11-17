@@ -1,4 +1,3 @@
-//const server = 'http://127.0.0.1:8080';
 const server = '/api';
 
 profile = null;
@@ -19,11 +18,15 @@ function scrollChat(){
 window.onload = function () {
     getUserId();
     getQuestions();
-    scrollChat();
+    getAllChatMessages();
+    setTimeout("scrollChat()", 1000);
 }
 
 function getUserId(){
-    axios.get(server + "/profile/me").then(response =>{profile = response.data.id});
+    axios.get(server + "/profile/me").then(response =>{
+        console.log(response);
+        profile = response.data;
+    });
 }
 
 function getQuestions(){
@@ -56,7 +59,7 @@ function getQuestions(){
                     alert('Вы не авторизованны');
                 }else{
                     axios.put(addAnswerConnection + questionId, {
-                        "profileId": profile,
+                        "profileId": profile.id,
                         "questionNumber": 0,
                         "answer": answer
                     });
