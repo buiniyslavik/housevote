@@ -9,6 +9,7 @@ import ru.kwuh.housevote.entities.House;
 import ru.kwuh.housevote.entities.Profile;
 import ru.kwuh.housevote.repository.HouseRepository;
 import ru.kwuh.housevote.repository.ProfileRepository;
+import ru.kwuh.housevote.services.HouseService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -23,21 +24,17 @@ public class HouseController {
     @Autowired
     ProfileRepository profileRepository;
 
+    @Autowired
+    HouseService houseService;
+
     @PostMapping(path = "/add", consumes = "application/json;charset=UTF-8")
     public House addHouse(@RequestBody @Valid House house) {
-//        House house1 = house;
-        return houseRepository.save(house);
+        return houseService.addHouse(house);
     }
 
     @GetMapping(value = {"/all", "/all/{page}"})
     public Iterable<House> showAllHouses(@PathVariable(name = "page", required = false) Integer pageNumber) {
-
-        PageRequest page;
-        if(pageNumber != null)
-            page = PageRequest.of(pageNumber, 25, Sort.by("postingDate").descending());
-        else
-            page = PageRequest.of(0,25, Sort.by("postingDate").descending());
-        return houseRepository.findAll(page).getContent();
+        return houseService.showAllHouses(pageNumber);
     }
 
     @PostMapping(value = "/id/{houseId}/adduser")
@@ -45,15 +42,6 @@ public class HouseController {
             @PathVariable(name = "houseId") String houseId,
             @RequestBody @NotNull String userId
     ) throws House.DuplicateProfileException {
-        if (houseRepository.findById(houseId).isPresent() && profileRepository.findById(userId).isPresent()) {
-            House currentHouse = houseRepository.findById(houseId).get();
-            Profile currentProfile = profileRepository.findById(userId).get();
-
-            currentHouse.addRegisteredProfile(currentProfile);
-            currentProfile.addProperty(currentHouse);
-            profileRepository.save(currentProfile);
-            return houseRepository.save(currentHouse);
-        }
-        return null;
+        return houseService.addProfileToHouse(houseId, userId);
     }
 }
