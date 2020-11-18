@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import ru.kwuh.housevote.entities.*;
 import ru.kwuh.housevote.repository.*;
+import ru.kwuh.housevote.services.VotingService;
 
 import javax.validation.Valid;
 import java.math.BigInteger;
@@ -38,6 +39,9 @@ public class VotingController {
 
     @Autowired
     GlobalsRepository globalsRepository;
+
+    @Autowired
+    VotingService votingService;
 
     @GetMapping(value = {"/all", "/all/{page}"})
     public Iterable<Vote> showAllVoting(@PathVariable(name = "page", required = false) Integer pageNumber) {
@@ -75,93 +79,38 @@ public class VotingController {
 
     @GetMapping("/available")
     public Iterable<Vote> showAvailableVoting(Principal principal) {
-        String currentUserEmail = principal.getName();
-        List<String> currentUserProperty = profileRepository.findUserByEmailAddress(currentUserEmail).getOwnedProperty();
-        List<Vote> availableVotes = Lists.newArrayList(voteRepository.findByHouseIdIn(currentUserProperty))
-                .stream().filter(Vote::isCurrentlyUsed).collect(Collectors.toList());
-        return availableVotes;
+        return votingService.getAvailableVotesForUser(principal);
     }
 
     @PostMapping(value = "/add", consumes = "application/json")
     public Vote addNewVoting(@RequestBody @Valid Vote vote) {
-        List<OnlineVoter> registeredHouseVoters = new ArrayList<>();
-        if (houseRepository.findById(vote.getHouseId()).isPresent()) {
-            House houseOnVote = houseRepository.findById(vote.getHouseId()).get();
-            houseOnVote.getRegisteredProfiles().forEach(user -> registeredHouseVoters.add(new OnlineVoter(user.getId())));
-            vote.setOnlineParticipants(registeredHouseVoters);
-            vote.setOfflineVoters(new ArrayList<>());
-            //       Vote voteWithId = voteRepository.save(vote);
-            return voteRepository.save(vote);
-        }
-        return null;
+        return votingService.addNewVoting(vote);
     }
 
     @DeleteMapping("/id/{voteId}")
     public Vote deleteVote(@PathVariable(name = "voteId") String voteId) {
-        if (voteRepository.findById(voteId).isPresent()) {
-            Vote v = voteRepository.findById(voteId).get();
-            voteRepository.delete(v);
-            return v;
-        } else return null;
+        return votingService.deleteVote(voteId);
     }
 
-    // -------------------------------------------------
 
     @GetMapping("/results/id/{voteId}")
     public FinalizedVote showCompletedVote(@PathVariable(name = "voteId") String voteId) {
-        if (finalizedVoteRepository.findById(voteId).isPresent())
-            return finalizedVoteRepository.findById(voteId).get();
-        else return null;
+        return votingService.showCompletedVote(voteId);
     }
 
     @GetMapping("/id/{voteId}")
     public Iterable<Question> showVoteQuestions(@PathVariable(name = "voteId") String voteId) {
-        if (voteRepository.findById(voteId).isPresent())
-            return voteRepository.findById(voteId).get().getQuestionList();
-        else return null;
+        return votingService.showVoteQuestions(voteId);
     }
 
     @PutMapping("/id/{voteId}/activate")
     public Vote activateVote(@PathVariable(name = "voteId") String voteId) {
-        if (voteRepository.findById(voteId).isPresent()) {
-            Vote v = voteRepository.findById(voteId).get();
-            v.activateVote();
-            return voteRepository.save(v);
-        }
-        return null;
+        return votingService.activateVote(voteId);
     }
 
     @PostMapping("/id/{voteId}/finish")
     public FinalizedVote endVote(@PathVariable(name = "voteId") String voteId) {
-        if (voteRepository.findById(voteId).isPresent()) {
-            Vote vote = voteRepository.findById(voteId).get();
-            vote.finalizeAnswers();
-            Globals globals;
-            if (globalsRepository.findById("config").isPresent()) {
-                globals = globalsRepository.findById("config").get();
-                if (globals.getLastFinalizedVoteId() != null) {
-                    vote.setPrevBlockHash(finalizedVoteRepository
-                            .findById(globals.getLastFinalizedVoteId())
-                            .get()
-                            .getVoteBodyHash());
-                } else {
-                    vote.setPrevBlockHash(Hashing.sha256().hashString("START", StandardCharsets.UTF_8).toString());
-                }
-            } else {
-                vote.setPrevBlockHash(Hashing.sha256().hashString("START", StandardCharsets.UTF_8).toString());
-                globals = new Globals();
-            }
-
-
-            FinalizedVote finalizedVote = new FinalizedVote(vote);
-            voteRepository.delete(vote);
-
-            FinalizedVote finalizedVote1 = finalizedVoteRepository.save(finalizedVote);
-            globals.setLastFinalizedVoteId(finalizedVote1.getId());
-            globalsRepository.save(globals);
-            return finalizedVote1;
-        }
-        return null;
+        return votingService.endVote(voteId);
     }
 
     @PutMapping(value = "/id/{voteId}", consumes = "application/json")
@@ -169,73 +118,11 @@ public class VotingController {
             @PathVariable(name = "voteId") String voteId,
             @RequestBody Response response
     ) throws Exception {
-        Vote vote;
-        if (voteRepository.findById(voteId).isPresent())
-            vote = voteRepository.findById(voteId).get();
-        else return null;
-        OnlineVoter currentVoter;
-        try {
-            currentVoter = vote.getOnlineParticipants()
-                    .stream()
-                    .filter(onlineVoter ->
-                            onlineVoter.getProfileId().equals(response.getProfileId()))
-                    .findFirst().get(); //TODO make it less horrible
-        } catch (NoSuchElementException nsex) {
-            return null;
-        }
-
-        if (!currentVoter.getResponses().contains(response)) {
-            currentVoter.getResponses().add(response);
-        } else throw new Exception("Already voted for this question!");
-        voteRepository.save(vote);
-        return currentVoter.getResponses();
+        return votingService.respondToQuestion(voteId, response);
     }
 
     @GetMapping("/results/report/id/{voteId}")
     public Object getVoteResults(@PathVariable(name = "voteId") String voteId) {
-        if (finalizedVoteRepository.findById(voteId).isPresent()) {
-            FinalizedVote finalizedVote = finalizedVoteRepository.findById(voteId).get();
-            Vote vote = finalizedVote.getVote();
-            List<Question> questions = vote.getQuestionList();
-            List<OnlineVoter> onlineVoters = vote.getOnlineParticipants();
-            List<ResponseCounter> rc = new ArrayList<>();
-            // indian mode on
-            for (int currentQuestion = 0; currentQuestion < questions.size(); currentQuestion++) {
-                rc.add(new ResponseCounter(currentQuestion));
-                for (int currentVoter = 0; currentVoter < onlineVoters.size(); currentVoter++) {
-                    for (
-                            int currentResp = 0;
-                            currentResp < onlineVoters
-                                    .get(currentVoter)
-                                    .getResponses()
-                                    .size();
-                            currentResp++) {
-                        Response resp = onlineVoters.get(currentVoter).getResponses().get(currentResp);
-                        if (resp.getQuestionNumber() != currentQuestion)
-                            continue;
-                        else {
-
-                            if (resp.getAnswer().equals(Question.Answers.YES))
-                                rc.get(currentQuestion).yes++;
-                            if (resp.getAnswer().equals(Question.Answers.NO))
-                                rc.get(currentQuestion).no++;
-                            if (resp.getAnswer().equals(Question.Answers.ABSTAINED))
-                                rc.get(currentQuestion).abstained++;
-
-                        }
-                    }
-                }
-            }
-            Integer totalVoters = onlineVoters.size();
-            rc.forEach(responseCounter -> {
-                if(responseCounter.yes > totalVoters/2)
-                    responseCounter.setHasPassed(true);
-                if(responseCounter.no > totalVoters/2)
-                    responseCounter.setHasPassed(false);
-            });
-            return rc;
-        }
-
-        return null;
+        return votingService.getVoteResults(voteId);
     }
 }
