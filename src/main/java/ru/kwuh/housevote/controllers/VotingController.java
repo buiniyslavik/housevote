@@ -116,7 +116,7 @@ public class VotingController {
     @PutMapping(value = "/id/{voteId}", consumes = "application/json")
     public Iterable<Response> respondToQuestion(
             @PathVariable(name = "voteId") String voteId,
-            @RequestBody Response response
+            @RequestBody List<Response> response
     ) throws Exception {
         return votingService.respondToQuestion(voteId, response);
     }

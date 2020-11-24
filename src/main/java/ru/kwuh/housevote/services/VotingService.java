@@ -113,26 +113,28 @@ public class VotingService {
 
     public Iterable<Response> respondToQuestion(
             String voteId,
-            Response response
+            List<Response> responses
     ) throws Exception {
-        Vote vote;
+        Vote vote; // find current vote
         if (voteRepository.findById(voteId).isPresent())
             vote = voteRepository.findById(voteId).get();
         else return null;
+
+
         OnlineVoter currentVoter;
-        try {
+        try { // match current user with a registered voter
             currentVoter = vote.getOnlineParticipants()
                     .stream()
                     .filter(onlineVoter ->
-                            onlineVoter.getProfileId().equals(response.getProfileId()))
+                            onlineVoter.getProfileId().equals(responses.get(0).getProfileId()))
                     .findFirst().get(); //TODO make it less horrible
         } catch (NoSuchElementException nsex) {
             return null;
         }
 
-        if (!currentVoter.getResponses().contains(response)) {
-            currentVoter.getResponses().add(response);
-        } else throw new Exception("Already voted for this question!"); // todo swap for AlreadyVotedException
+        if (currentVoter.getResponses().isEmpty()) {
+            currentVoter.setResponses(responses);
+        } else throw new Exception("Already voted here!"); // todo swap for AlreadyVotedException
         voteRepository.save(vote);
         return currentVoter.getResponses();
     }
